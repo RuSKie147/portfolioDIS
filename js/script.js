@@ -597,3 +597,74 @@ if (themeToggle) {
         setTimeout(createCircuitPattern, 50);
     });
 }
+
+// --- Neon Border Reveal Animation (Cleaner & Slower) ---
+(function() {
+    const cardLinks = document.querySelectorAll('.project-card-link');
+    cardLinks.forEach(link => link.style.opacity = 0);
+
+    const BORDER_ANIM_DURATION = 1500; // ms (slower for a cleaner effect)
+
+    const revealCards = (entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const card = entry.target.querySelector('.project-card');
+                const rect = card.getBoundingClientRect();
+
+                entry.target.style.opacity = 1;
+                card.style.opacity = 0;
+                card.classList.add('revealing');
+
+                // Create SVG neon border
+                const neonBorder = document.createElement('div');
+                neonBorder.className = 'neon-border-anim';
+                const w = rect.width;
+                const h = rect.height;
+                const r = 20; // border-radius
+                neonBorder.innerHTML = `
+                  <svg width="${w}" height="${h}">
+                    <rect
+                      class="neon-border-path"
+                      x="2" y="2"
+                      width="${w-4}" height="${h-4}"
+                      rx="${r-2}" ry="${r-2}"
+                    />
+                  </svg>
+                `;
+                card.appendChild(neonBorder);
+
+                // Animate the border using stroke-dasharray/offset
+                const path = neonBorder.querySelector('.neon-border-path');
+                const length = path.getTotalLength();
+                path.style.strokeDasharray = length;
+                path.style.strokeDashoffset = length;
+                path.getBoundingClientRect(); // Force reflow
+
+                path.style.transition = `stroke-dashoffset ${BORDER_ANIM_DURATION}ms cubic-bezier(0.6,0,0.4,1)`;
+                path.style.strokeDashoffset = 0;
+
+                // Reveal card content after border animation
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.4s cubic-bezier(0.6,0,0.4,1)';
+                    card.style.opacity = 1;
+                    setTimeout(() => {
+                        if (neonBorder.parentNode === card) {
+                            card.removeChild(neonBorder);
+                        }
+                        card.classList.remove('revealing');
+                        card.style.transition = '';
+                    }, 350);
+                }, BORDER_ANIM_DURATION + 100);
+
+                observer.unobserve(entry.target);
+            }
+        });
+    };
+
+    const cardObserver = new IntersectionObserver(revealCards, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    cardLinks.forEach(link => cardObserver.observe(link));
+})();

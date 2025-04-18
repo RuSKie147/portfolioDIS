@@ -42,13 +42,15 @@ body.theme-light .border {
 }
 body.theme-light .project-card {
     background-color: rgba(255, 255, 255, 0.7) !important; /* Semi-transparent white card */
-    box-shadow: 0 4px 15px rgba(0, 0, 50, 0.08); /* Enhanced shadow */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10); /* Much lighter default shadow */
     border-width: 2px !important; /* Thicker border */
     border-radius: 20px !important; /* Stronger curved borders */
 }
 body.theme-light .project-card:hover {
     border-color: rgba(0, 192, 255, 0.6) !important; /* Blue border on hover */
-    box-shadow: 0 0 20px rgba(0, 192, 255, 0.4), 0 8px 25px rgba(0, 0, 50, 0.12); /* Enhanced blue glow + shadow */
+    box-shadow: 0 4px 16px 0 rgba(0, 255, 255, 0.10),
+                0 0 12px 2px rgba(255, 0, 255, 0.08),
+                0 2px 12px 0 rgba(0,0,0,0.10); /* Enhanced blue glow + shadow */
     /* Keep existing transform from general styles */
 }
 body.theme-light #theme-toggle {
@@ -108,13 +110,15 @@ html.dark body.theme-dark .border {
 }
 html.dark body.theme-dark .project-card {
     background-color: rgba(5, 5, 12, 0.7) !important; /* Darker semi-transparent card */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10); /* Much lighter default shadow */
     border-width: 2px !important; /* Thicker border */
     border-radius: 20px !important; /* Stronger curved borders */
 }
 html.dark body.theme-dark .project-card:hover {
     border-color: rgba(255, 0, 255, 0.5) !important; /* Magenta border on hover */
-    box-shadow: 0 0 18px rgba(255, 0, 255, 0.35); /* Enhanced magenta glow */
+    box-shadow: 0 4px 16px 0 rgba(0, 255, 255, 0.10),
+                0 0 12px 2px rgba(255, 0, 255, 0.08),
+                0 2px 12px 0 rgba(0,0,0,0.10); /* Enhanced magenta glow */
     transform: translateY(-5px);
 }
 html.dark body.theme-dark #theme-toggle {
@@ -158,6 +162,7 @@ html.dark body.theme-dark nav a.active {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10); /* Much lighter default shadow */
 }
 
 .project-card a, .project-card a:visited, .project-card a:hover, .project-card a:active {
@@ -166,9 +171,9 @@ html.dark body.theme-dark nav a.active {
 
 /* Remove static 3D tilt from hover, keep only shadow and border for hover */
 .project-card:hover {
-    box-shadow: 0 12px 40px 0 rgba(0, 255, 255, 0.25),
-                0 0 40px 8px rgba(255, 0, 255, 0.18),
-                0 2px 24px 0 rgba(0,0,0,0.18);
+    box-shadow: 0 4px 16px 0 rgba(0, 255, 255, 0.10),
+                0 0 12px 2px rgba(255, 0, 255, 0.08),
+                0 2px 12px 0 rgba(0,0,0,0.10);
     border-color: #00e5e5 !important;
     z-index: 2;
 }
@@ -259,6 +264,100 @@ html.dark body.theme-dark nav a.active {
 
 .glitch-effect {
   animation: glitch 0.3s steps(2, end) infinite;
+}
+
+/* Matrix Code Rain Animation */
+@keyframes matrix-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes matrix-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes card-reveal {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.matrix-reveal-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.matrix-column {
+  position: absolute;
+  top: 0;
+  width: 20px; /* Width of each matrix column */
+  height: 100%;
+  color: #00FF00;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 14px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.matrix-char {
+  display: inline-block;
+  opacity: 0;
+  animation: matrix-fade-in 0.2s forwards, matrix-fade-out 0.2s forwards;
+  animation-delay: var(--delay-in), var(--delay-out);
+  text-shadow: 0 0 8px currentColor;
+}
+
+.project-card.revealing {
+  animation: card-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Neon Border Animation */
+.neon-border-anim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  border-radius: 20px;
+  overflow: hidden; /* Ensures glow stays inside the card border */
+  display: block;
+}
+.neon-border-anim svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.neon-border-path {
+  stroke: #00e5e5;
+  stroke-width: 4;
+  fill: none;
+  filter: none; /* Remove drop-shadow so glow does not exceed border */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+body.theme-light .neon-border-path {
+  stroke: #0077ff;
+  filter: none;
 }
 
 /* Ensure dark color scheme for browser UI consistency */
