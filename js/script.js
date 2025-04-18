@@ -265,60 +265,6 @@ if (bottomNav) {
     }
 }
 
-// --- Typewriter Effect ---
-const typewriterElement = document.getElementById('typewriter-text');
-const wordsToCycle = ['Engineer?', 'Designer?', 'Editor?'];
-let wordIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-const typingSpeed = 150;
-const deletingSpeed = 100;
-const delayBetweenWords = 1500;
-
-function typeWriter() {
-    const currentWord = wordsToCycle[wordIndex];
-    let displayText = '';
-
-    if (isDeleting) {
-        // Deleting characters
-        displayText = currentWord.substring(0, charIndex - 1);
-        charIndex--;
-    } else {
-        // Typing characters
-        displayText = currentWord.substring(0, charIndex + 1);
-        charIndex++;
-    }
-
-    if (typewriterElement) {
-        typewriterElement.textContent = displayText;
-        typewriterElement.style.borderRight = '2px solid var(--accent-color)'; // Blinking cursor
-    }
-
-
-    let typeSpeed = isDeleting ? deletingSpeed : typingSpeed;
-
-    if (!isDeleting && charIndex === currentWord.length) {
-        // Word fully typed
-        typeSpeed = delayBetweenWords;
-        isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-        // Word fully deleted
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % wordsToCycle.length;
-        typeSpeed = typingSpeed / 2; // Faster start for next word
-    }
-
-    setTimeout(typeWriter, typeSpeed);
-}
-
-// Start the typewriter effect if the element exists
-if (typewriterElement) {
-    // Add a small delay before starting
-    setTimeout(typeWriter, 500);
-} else {
-    console.error("Typewriter element not found!");
-}
-
 // --- Project Card Flip (Task 5 - Implementation) ---
 document.querySelectorAll('.project-card-link').forEach(link => {
     let flipped = false;
