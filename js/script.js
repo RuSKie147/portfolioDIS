@@ -290,6 +290,63 @@ document.querySelectorAll('.project-card-link').forEach(link => {
     });
 });
 
+// --- Improved Interactive 3D Tilt for Project Cards (Natural, Subtle, Shadow Follows) ---
+document.querySelectorAll('.project-card-tilt').forEach(wrapper => {
+    const card = wrapper.querySelector('.project-card');
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
+    let animating = false;
+    let rafId;
+
+    const maxRotateY = 10; // Subtle
+    const maxRotateX = 5;  // Subtle
+    const spring = 0.15;
+
+    function animate() {
+        mouseX += (targetX - mouseX) * spring;
+        mouseY += (targetY - mouseY) * spring;
+        card.style.transform = `rotateY(${mouseX}deg) rotateX(${mouseY}deg) scale(1.04)`;
+        // Shadow follows tilt
+        const shadowX = -mouseX * 2;
+        const shadowY = mouseY * 2 + 10;
+        card.style.boxShadow = `${shadowX}px ${shadowY}px 40px 0 rgba(0, 255, 255, 0.18), 0 0 32px 8px rgba(255,0,255,0.10), 0 2px 24px 0 rgba(0,0,0,0.13)`;
+        if (Math.abs(mouseX - targetX) > 0.1 || Math.abs(mouseY - targetY) > 0.1) {
+            rafId = requestAnimationFrame(animate);
+        } else {
+            mouseX = targetX;
+            mouseY = targetY;
+            card.style.transform = `rotateY(${mouseX}deg) rotateX(${mouseY}deg) scale(1.04)`;
+            card.style.boxShadow = `${-mouseX * 2}px ${mouseY * 2 + 10}px 40px 0 rgba(0, 255, 255, 0.18), 0 0 32px 8px rgba(255,0,255,0.10), 0 2px 24px 0 rgba(0,0,0,0.13)`;
+            animating = false;
+        }
+    }
+
+    wrapper.addEventListener('mousemove', (e) => {
+        const rect = wrapper.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        targetX = ((x - centerX) / centerX) * maxRotateY;
+        targetY = -((y - centerY) / centerY) * maxRotateX;
+        if (!animating) {
+            animating = true;
+            animate();
+        }
+    });
+    wrapper.addEventListener('mouseleave', () => {
+        targetX = 0;
+        targetY = 0;
+        if (!animating) {
+            animating = true;
+            animate();
+        }
+    });
+    wrapper.addEventListener('mouseenter', () => {
+        card.style.transition = 'box-shadow 0.3s cubic-bezier(0.22,1,0.36,1)';
+    });
+});
+
 // --- UI Sound Effects (Task 8 - Basic Setup) ---
 // Use Web Audio API to create sounds programmatically instead of loading files
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();

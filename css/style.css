@@ -42,11 +42,13 @@ body.theme-light .border {
 }
 body.theme-light .project-card {
     background-color: rgba(255, 255, 255, 0.7) !important; /* Semi-transparent white card */
-    box-shadow: 0 2px 5px rgba(0, 0, 50, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 50, 0.08); /* Enhanced shadow */
+    border-width: 2px !important; /* Thicker border */
+    border-radius: 20px !important; /* Stronger curved borders */
 }
 body.theme-light .project-card:hover {
     border-color: rgba(0, 192, 255, 0.6) !important; /* Blue border on hover */
-    box-shadow: 0 0 10px rgba(0, 192, 255, 0.3), 0 2px 5px rgba(0, 0, 50, 0.05); /* Blue glow + shadow */
+    box-shadow: 0 0 20px rgba(0, 192, 255, 0.4), 0 8px 25px rgba(0, 0, 50, 0.12); /* Enhanced blue glow + shadow */
     /* Keep existing transform from general styles */
 }
 body.theme-light #theme-toggle {
@@ -104,9 +106,15 @@ html.dark body.theme-dark .border {
   border-color: rgba(0, 255, 255, 0.2) !important; /* Dimmer cyan border */
   box-shadow: 0 0 3px rgba(0, 255, 255, 0.05);
 }
+html.dark body.theme-dark .project-card {
+    background-color: rgba(5, 5, 12, 0.7) !important; /* Darker semi-transparent card */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
+    border-width: 2px !important; /* Thicker border */
+    border-radius: 20px !important; /* Stronger curved borders */
+}
 html.dark body.theme-dark .project-card:hover {
     border-color: rgba(255, 0, 255, 0.5) !important; /* Magenta border on hover */
-    box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); /* Magenta glow */
+    box-shadow: 0 0 18px rgba(255, 0, 255, 0.35); /* Enhanced magenta glow */
     transform: translateY(-5px);
 }
 html.dark body.theme-dark #theme-toggle {
@@ -138,17 +146,51 @@ html.dark body.theme-dark nav a.active {
 #theme-toggle:hover {
   transform: translateY(-2px) scale(1.05);
 }
+
+/* Enhanced Project Card Styles */
 .project-card {
-    transition: transform 0.2s cubic-bezier(0.6, 0, 0.4, 1), border-color 0.2s cubic-bezier(0.6, 0, 0.4, 1), box-shadow 0.2s cubic-bezier(0.6, 0, 0.4, 1);
-    /* Add perspective for 3D tilt */
-    perspective: 1000px;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.3s cubic-bezier(0.6, 0, 0.4, 1);
+    will-change: transform, box-shadow;
+    perspective: 1200px;
+    height: 500px !important; /* Make cards very big */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-/* Add 3D Tilt Effect */
+.project-card a, .project-card a:visited, .project-card a:hover, .project-card a:active {
+    text-decoration: none;
+}
+
+/* Remove static 3D tilt from hover, keep only shadow and border for hover */
 .project-card:hover {
-    /* Combine existing hover transform with tilt */
-    transform: translateY(-5px) rotateX(5deg) rotateY(-5deg) scale(1.03);
-    /* Glow will be primarily handled by theme-specific hover styles */
+    box-shadow: 0 12px 40px 0 rgba(0, 255, 255, 0.25),
+                0 0 40px 8px rgba(255, 0, 255, 0.18),
+                0 2px 24px 0 rgba(0,0,0,0.18);
+    border-color: #00e5e5 !important;
+    z-index: 2;
+}
+
+.project-card:active {
+    /* Subtle press effect */
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
+}
+
+.project-card h3 {
+    font-size: 2rem; /* Larger title */
+    margin-bottom: 1.5rem;
+}
+
+.project-card p {
+    font-size: 1.1rem; /* Larger text */
+    line-height: 1.6;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
 }
 
 /* Add Neon Glows */
@@ -268,4 +310,49 @@ html:not(.dark) { color-scheme: light; } /* Use light scheme for light mode */
     pointer-events: none;
     z-index: 70; /* Higher than before */
     opacity: 0.8; /* More visible */
+}
+
+/* Project grid spacing for vertical cards */
+@media (min-width: 640px) {
+    #projects .grid {
+        grid-gap: 2.5rem; /* Increased gap between cards */
+    }
+}
+
+/* Make sure vertical cards have proper height on mobile */
+@media (max-width: 639px) {
+    .project-card {
+        height: 400px !important; /* Slightly shorter on mobile */
+    }
+}
+
+/* Portrait project cards, always two per row on >=640px */
+#projects .grid {
+    grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+    #projects .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem;
+    }
+    .project-card {
+        max-width: 370px;
+        margin-left: auto;
+        margin-right: auto;
+        aspect-ratio: 3/4;
+        height: auto !important;
+        min-height: 420px;
+    }
+}
+@media (max-width: 639px) {
+    .project-card {
+        max-width: 95vw;
+        aspect-ratio: 3/4;
+        min-height: 340px;
+    }
+}
+
+/* Add perspective wrapper for project cards */
+.project-card-tilt {
+  perspective: 900px;
 }
