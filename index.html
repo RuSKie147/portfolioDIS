@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth"> <!-- Add scroll-smooth -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Sleek Portfolio</title>
+    <!-- Link Tailwind CSS FIRST -->
+    <link href="dist/output.css" rel="stylesheet">
+    <!-- Link your custom styles LAST -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body class="theme-light font-sans transition-colors duration-300"> <!-- Restore theme-light class, remove Tailwind color/bg classes -->
+
+    <!-- Remove Tailwind color/bg/border classes from button, rely on CSS -->
+    <button id="theme-toggle" class="fixed top-4 right-4 p-2 rounded z-50
+                                     backdrop-blur-sm shadow-sm transition">
+        <span class="dark:hidden">🌙</span> <!-- Moon for light mode -->
+        <span class="hidden dark:inline">☀️</span> <!-- Sun for dark mode -->
+    </button>
+
+    <!-- Background Overlay for Cursor Effects - Updated z-index to be visible -->
+    <div id="background-overlay" class="fixed inset-0 z-0 pointer-events-none"></div>
+
+    <section id="home" class="min-h-screen flex items-center justify-center px-4 relative z-10">
+        <!-- Apply neon glow based on theme -->
+        <h1 class="font-heading text-6xl md:text-7xl font-bold text-center theme-light:neon-glow-blue dark:neon-glow-magenta">Welcome // My Portfolio</h1>
+    </section>
+
+    <section id="projects" class="py-24"> <!-- Increased padding -->
+        <!-- Apply neon glow based on theme -->
+        <h2 class="font-heading text-5xl font-semibold text-center mb-16 theme-light:neon-glow-blue dark:neon-glow-magenta">PROJECTS_</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto px-6"> <!-- Increased gap/maxWidth/padding -->
+            <!-- Add links to project cards -->
+            <a href="#" class="project-card-link block">
+                <div class="project-card border rounded-lg p-6 backdrop-blur-sm transition duration-300 ease-out">
+                    <h3 class="font-heading text-2xl font-medium mb-3">Project Title 1</h3>
+                    <p class="text-sm opacity-80">Brief description...</p>
+                </div>
+            </a>
+            <a href="#" class="project-card-link block">
+                <div class="project-card border rounded-lg p-6 backdrop-blur-sm transition duration-300 ease-out">
+                    <h3 class="font-heading text-2xl font-medium mb-3">Project Title 2</h3>
+                    <p class="text-sm opacity-80">Brief description...</p>
+                </div>
+            </a>
+            <a href="#" class="project-card-link block">
+                 <div class="project-card border rounded-lg p-6 backdrop-blur-sm transition duration-300 ease-out">
+                    <h3 class="font-heading text-2xl font-medium mb-3">Project Title 3</h3>
+                    <p class="text-sm opacity-80">Brief description...</p>
+                </div>
+            </a>
+            <a href="#" class="project-card-link block">
+                 <div class="project-card border rounded-lg p-6 backdrop-blur-sm transition duration-300 ease-out">
+                    <h3 class="font-heading text-2xl font-medium mb-3">Project Title 4</h3>
+                    <p class="text-sm opacity-80">Brief description...</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section id="story" class="py-24 backdrop-blur-md"> <!-- Remove bg classes -->
+        <!-- Apply neon glow based on theme -->
+        <h2 class="font-heading text-5xl font-semibold text-center mb-16 theme-light:neon-glow-blue dark:neon-glow-magenta">MY_STORY</h2>
+        <!-- Remove Tailwind color classes -->
+        <div class="prose dark:prose-invert max-w-3xl mx-auto px-4 opacity-90"> <!-- Adjusted dark opacity -->
+            <p>This section will contain visual storytelling elements, perhaps using scroll-triggered animations later.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
+        </div>
+    </section>
+
+    <!-- Remove Tailwind color/bg/border classes -->
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0
+                           backdrop-blur-md p-4 flex justify-center space-x-10
+                           border-t shadow-md">
+        <!-- Add tooltips -->
+        <a href="#home" id="nav-home" class="transition-colors relative" data-tooltip="Go to Home">Home</a>
+        <a href="#projects" id="nav-projects" class="transition-colors relative" data-tooltip="View Projects">Projects</a>
+        <a href="#story" id="nav-story" class="transition-colors relative" data-tooltip="Read My Story">Story</a>
+    </nav>
+
+    <!-- Import Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <!-- Import Howler.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

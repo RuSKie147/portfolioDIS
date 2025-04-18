@@ -1,0 +1,36 @@
+{
+  "dependencies": {
+    "animejs": "^4.0.1",
+    "cli": "^1.0.1",
+    "gsap": "^3.12.7",
+    "howler": "^2.2.4",
+    "html5-qrcode": "^2.3.8",
+    "lottie-web": "^5.12.2"
+  },
+  "name": "portfoliodis",
+  "description": "Personal portfolio.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./src/main.css -o ./dist/output.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuSKie147/portfolioDIS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RuSKie147/portfolioDIS/issues"
+  },
+  "homepage": "https://github.com/RuSKie147/portfolioDIS#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.4",
+    "@tailwindcss/typography": "^0.5.13",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^4.1.4"
+  }
+}

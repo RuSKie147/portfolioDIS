@@ -1,0 +1,271 @@
+/* Custom theme classes to ensure gradients work in all browsers */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+/* --- Base Font Setup --- */
+body {
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden; /* Prevent horizontal scroll from glows */
+}
+h1, h2, h3 {
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* --- Light (Previous) Mode Theme --- */
+body.theme-light {
+  background-color: #e0e5f0 !important; /* Light cool gray */
+  /* Subtle magenta grid + gradients */
+  background-image:
+    linear-gradient(rgba(255, 0, 255, 0.04) 1px, transparent 1px), /* Faint magenta grid lines */
+    linear-gradient(90deg, rgba(255, 0, 255, 0.04) 1px, transparent 1px),
+    radial-gradient(ellipse at 10% 20%, rgba(0, 192, 255, 0.1) 0%, transparent 60%), /* Light electric blue glow */
+    radial-gradient(ellipse at 90% 80%, rgba(255, 0, 127, 0.1) 0%, transparent 60%) !important; /* Light pink glow */
+  background-size: 40px 40px, 40px 40px, auto, auto; /* Grid size */
+  color: #333 !important; /* Darker text for contrast */
+  text-shadow: none;
+}
+body.theme-light a {
+  color: #ff007f !important; /* Bright Pink links */
+  text-shadow: 0 0 5px rgba(255, 0, 127, 0.4);
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+body.theme-light a:hover {
+  color: #00c0ff !important; /* Electric Blue hover */
+  text-shadow: 0 0 7px rgba(0, 192, 255, 0.6);
+}
+body.theme-light h1, body.theme-light h2, body.theme-light h3 {
+   color: #1a1c2c !important; /* Dark navy headings */
+   text-shadow: 0 0 6px rgba(0, 192, 255, 0.2); /* Subtle blue heading glow */
+}
+body.theme-light .border {
+  border-color: rgba(255, 0, 127, 0.3) !important; /* Pink border */
+  box-shadow: none;
+}
+body.theme-light .project-card {
+    background-color: rgba(255, 255, 255, 0.7) !important; /* Semi-transparent white card */
+    box-shadow: 0 2px 5px rgba(0, 0, 50, 0.05);
+}
+body.theme-light .project-card:hover {
+    border-color: rgba(0, 192, 255, 0.6) !important; /* Blue border on hover */
+    box-shadow: 0 0 10px rgba(0, 192, 255, 0.3), 0 2px 5px rgba(0, 0, 50, 0.05); /* Blue glow + shadow */
+    /* Keep existing transform from general styles */
+}
+body.theme-light #theme-toggle {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: #ff007f; /* Pink icon */
+    border: 1px solid rgba(255, 0, 127, 0.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+}
+ body.theme-light #theme-toggle:hover {
+    border-color: rgba(0, 192, 255, 0.6); /* Blue border hover */
+    color: #00c0ff; /* Blue icon hover */
+    box-shadow: 0 0 8px rgba(0, 192, 255, 0.4);
+}
+body.theme-light #bottom-nav {
+    background-color: rgba(224, 229, 240, 0.85) !important; /* Light grey nav matching bg */
+    border-top-color: rgba(255, 0, 127, 0.3) !important; /* Pink top border */
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+ body.theme-light nav a.active {
+   color: #cc0066 !important; /* Darker Pink for active */
+   font-weight: 600;
+   text-shadow: 0 0 5px rgba(255, 0, 127, 0.3);
+}
+
+/* --- Dark (Cyberpunk) Mode Theme --- */
+html.dark body.theme-dark {
+  background-color: #050508 !important; /* Very dark base */
+  /* Neon cyan/magenta radial gradients + Subtle Grid */
+  background-image:
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px), /* Faint cyan grid lines */
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px), /* Faint cyan grid lines */
+    radial-gradient(ellipse at 70% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 40%, rgba(255, 0, 255, 0.1) 0%, transparent 50%) !important;
+  background-size: 50px 50px, 50px 50px, auto, auto; /* Grid size */
+  color: #c0c0c0 !important; /* Light gray text */
+  /* Cyan text glow */
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.4),
+               0 0 8px rgba(0, 255, 255, 0.2);
+}
+html.dark body.theme-dark a {
+  color: #00e5e5 !important; /* Cyan links */
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.6);
+}
+html.dark body.theme-dark a:hover {
+  color: #ff40ff !important; /* Magenta hover */
+  text-shadow: 0 0 8px rgba(255, 0, 255, 0.7);
+}
+html.dark body.theme-dark h1, html.dark body.theme-dark h2, html.dark body.theme-dark h3 {
+   color: #ffffff !important; /* White headings */
+   /* Magenta heading glow */
+   text-shadow: 0 0 7px rgba(255, 0, 255, 0.5),
+                0 0 12px rgba(255, 0, 255, 0.3);
+}
+html.dark body.theme-dark .border {
+  border-color: rgba(0, 255, 255, 0.2) !important; /* Dimmer cyan border */
+  box-shadow: 0 0 3px rgba(0, 255, 255, 0.05);
+}
+html.dark body.theme-dark .project-card:hover {
+    border-color: rgba(255, 0, 255, 0.5) !important; /* Magenta border on hover */
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); /* Magenta glow */
+    transform: translateY(-5px);
+}
+html.dark body.theme-dark #theme-toggle {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #00e5e5; /* Cyan icon */
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3); /* Cyan glow */
+}
+html.dark body.theme-dark #theme-toggle:hover {
+  border-color: rgba(255, 0, 255, 0.6); /* Magenta border on hover */
+  color: #ff40ff; /* Magenta icon hover */
+  box-shadow: 0 0 12px rgba(255, 0, 255, 0.5); /* Magenta glow on hover */
+}
+ html.dark body.theme-dark #bottom-nav {
+    border-top-color: rgba(0, 255, 255, 0.4) !important;
+}
+html.dark body.theme-dark nav a.active {
+   color: #ff80ff !important; /* Brighter magenta for active */
+   text-shadow: 0 0 10px rgba(255, 0, 255, 0.9);
+}
+
+
+/* --- General Styles (Apply to both modes) --- */
+#theme-toggle {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.6, 0, 0.4, 1), box-shadow 0.2s cubic-bezier(0.6, 0, 0.4, 1), border-color 0.2s cubic-bezier(0.6, 0, 0.4, 1);
+  z-index: 100;
+}
+#theme-toggle:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+.project-card {
+    transition: transform 0.2s cubic-bezier(0.6, 0, 0.4, 1), border-color 0.2s cubic-bezier(0.6, 0, 0.4, 1), box-shadow 0.2s cubic-bezier(0.6, 0, 0.4, 1);
+    /* Add perspective for 3D tilt */
+    perspective: 1000px;
+}
+
+/* Add 3D Tilt Effect */
+.project-card:hover {
+    /* Combine existing hover transform with tilt */
+    transform: translateY(-5px) rotateX(5deg) rotateY(-5deg) scale(1.03);
+    /* Glow will be primarily handled by theme-specific hover styles */
+}
+
+/* Add Neon Glows */
+.neon-glow-cyan {
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.7),
+                 0 0 10px rgba(0, 255, 255, 0.5),
+                 0 0 15px rgba(0, 255, 255, 0.3);
+}
+.neon-glow-magenta {
+     text-shadow: 0 0 5px rgba(255, 0, 255, 0.7),
+                  0 0 10px rgba(255, 0, 255, 0.5),
+                  0 0 15px rgba(255, 0, 255, 0.3);
+}
+.neon-glow-blue {
+     text-shadow: 0 0 5px rgba(0, 119, 255, 0.7),
+                  0 0 10px rgba(0, 119, 255, 0.5),
+                  0 0 15px rgba(0, 119, 255, 0.3);
+}
+.neon-glow-yellow {
+      text-shadow: 0 0 5px rgba(255, 255, 0, 0.7),
+                   0 0 10px rgba(255, 255, 0, 0.5),
+                   0 0 15px rgba(255, 255, 0, 0.3);
+}
+
+/* Add basic tooltip styles */
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%; /* Position above the element */
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 5px; /* Space between element and tooltip */
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.8); /* Dark background */
+  color: white; /* Light text */
+  font-size: 0.75rem; /* Smaller font */
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none; /* Prevent tooltip from interfering with hover */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.15s ease-in-out; /* Sharper transition */
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1; /* Show on hover */
+}
+
+/* --- Cyberpunk Animations --- */
+
+/* Glitch Effect */
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translate(calc(-1px + 2px * var(--glitch-rand-x, 0)), calc(-1px + 2px * var(--glitch-rand-y, 0)));
+    opacity: 0.8;
+  }
+  20%, 40%, 60%, 80% {
+    transform: translate(calc(1px - 2px * var(--glitch-rand-x, 0)), calc(1px - 2px * var(--glitch-rand-y, 0)));
+    opacity: 1;
+  }
+}
+
+.glitch-effect {
+  animation: glitch 0.3s steps(2, end) infinite;
+}
+
+/* Ensure dark color scheme for browser UI consistency */
+html.dark { color-scheme: dark; }
+html:not(.dark) { color-scheme: light; } /* Use light scheme for light mode */
+
+/* --- Cursor Trail Styles --- */
+.cursor-particle {
+    position: absolute;
+    width: 5px; /* Reduced from 8px */
+    height: 5px; /* Reduced from 8px */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.8; /* Slightly reduced from 0.9 */
+    transform-origin: center center;
+    box-shadow: 0 0 5px currentColor, 0 0 2px #fff; /* Reduced shadow size */
+}
+
+/* Background overlay for matrix-like effects */
+#background-overlay {
+    pointer-events: none;
+    overflow: hidden;
+    position: fixed; /* Ensure it covers the entire viewport */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90; /* Higher than content but lower than cursor particles */
+}
+
+/* Circuit pattern nodes */
+.circuit-node {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 80; /* Higher than before */
+    opacity: 0.9; /* More visible */
+    box-shadow: 0 0 8px currentColor;
+}
+
+/* Circuit lines */
+.circuit-line {
+    position: absolute;
+    height: 2px;
+    transform-origin: left center;
+    pointer-events: none;
+    z-index: 70; /* Higher than before */
+    opacity: 0.8; /* More visible */
+}

@@ -1,0 +1,8 @@
+animejs
+tailwindcss
+postcss
+autoprefixer
+gsap
+lottie-web
+howler
+html5-qrcode
