@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Sleek Portfolio</title>
+    <title>Raj at Work</title>
     <!-- Link Tailwind CSS FIRST -->
     <link href="dist/output.css" rel="stylesheet">
     <!-- Link your custom styles LAST -->
@@ -11,11 +11,18 @@
 </head>
 <body class="theme-light font-sans transition-colors duration-300"> <!-- Restore theme-light class, remove Tailwind color/bg classes -->
 
-    <!-- Remove Tailwind color/bg/border classes from button, rely on CSS -->
-    <button id="theme-toggle" class="fixed top-4 right-4 p-2 rounded z-50
-                                     backdrop-blur-sm shadow-sm transition">
-        <span class="dark:hidden">🌙</span> <!-- Moon for light mode -->
-        <span class="hidden dark:inline">☀️</span> <!-- Sun for dark mode -->
+    <!-- Theme Toggle Button (just the SVG icon) -->
+    <button id="theme-toggle" class="fixed top-8 right-8 z-50 transition focus:outline-none" style="background: transparent; border: none; padding: 0; box-shadow: none; top:1.5rem; right: 2rem; left: auto;"
+            aria-label="Toggle theme">
+        <!-- Sun Icon (light mode) - Add dark:hidden -->
+        <svg id="icon-sun" class="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400 dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="width: 1.75rem; height: 1.75rem;">
+            <circle cx="12" cx="12" r="5"/>
+            <path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
+        </svg>
+        <!-- Moon Icon (dark mode) - Keep hidden, add dark:inline -->
+        <svg id="icon-moon" class="w-6 h-6 sm:w-7 sm:h-7 text-cyan-300 hidden dark:inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="width: 1.75rem; height: 1.75rem;">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
+        </svg>
     </button>
 
     <!-- Background Overlay for Cursor Effects - Updated z-index to be visible -->
@@ -26,6 +33,35 @@
         <h1 class="font-heading text-6xl md:text-7xl font-bold text-center theme-light:neon-glow-blue dark:neon-glow-magenta">Welcome // My Portfolio</h1>
     </section>
 
+    <!-- COMPLETELY REBUILT ABOUT SECTION WITH ABSOLUTE POSITIONING -->
+    <section id="about" class="min-h-screen w-full relative flex">
+        <!-- Left half - Image (centered, slightly smaller) -->
+        <div class="w-full md:w-1/2 flex items-center justify-center">
+            <div class="w-[22rem] h-[22rem] md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] rounded-full image-neon-border flex items-center justify-center">
+                <span class="text-4xl md:text-5xl text-pink-500 dark:text-cyan-300 opacity-70 select-none">Your Image<br>Here</span>
+            </div>
+        </div>
+        
+        <!-- Right half - Text with increased sizes and padding -->
+        <div class="w-full md:w-1/2 flex flex-col justify-center p-8 md:pr-48 lg:pr-64 xl:pr-72">
+            <h2 class="font-heading text-5xl md:text-6xl lg:text-7xl font-semibold mb-10 theme-light:neon-glow-blue dark:neon-glow-magenta" style="font-size: 3rem; line-height: 1.1;">
+                Who am I?
+            </h2>
+            <div class="h-24 mb-10">
+                <span id="whoami-typewriter" class="font-mono text-4xl md:text-5xl lg:text-6xl text-pink-500 dark:text-cyan-300" style="font-size: 2.2rem;"></span>
+            </div>
+            <p class="text-xl md:text-2xl lg:text-3xl leading-relaxed mr-4 pr-16 md:pr-32 lg:pr-48" style="font-size: 1.5rem; line-height: 1.5; margin-right: 4rem;">
+                Hi, I am Raj.<br>
+                I work at the intersection of <b>Visual Design</b>, <b>Development</b>, <b>Video Editing</b>, and <b>Design Thinking</b>. My passion is to create engaging digital experiences whether that's crafting beautiful interfaces, building robust solutions, telling stories through motion, or solving problems with empathy and creativity.
+            </p>
+        </div>
+        
+        <!-- Background circuit pattern overlay -->
+        <div class="absolute inset-0 -z-10 overflow-hidden opacity-70">
+            <div id="about-circuit-nodes" class="absolute inset-0"></div>
+        </div>
+    </section>
+
     <section id="projects" class="py-24"> <!-- Increased padding -->
         <!-- Apply neon glow based on theme -->
         <h2 class="font-heading text-5xl font-semibold text-center theme-light:neon-glow-blue dark:neon-glow-magenta" style="margin-bottom: 12rem;">PROJECTS_</h2>
@@ -34,32 +70,32 @@
             <a href="#" class="project-card-link block no-underline">
                 <div class="project-card-tilt">
                     <div class="project-card border rounded-xl text-center px-6 py-8 backdrop-blur-sm transition duration-300 ease-out min-h-[400px] flex flex-col justify-between">
-                        <h3 class="font-heading text-3xl font-medium mb-5">Project Title 1</h3>
-                        <p class="text-base opacity-80 mt-auto">Brief description of this amazing project that showcases my skills in web development and design. This is a longer description to fill the vertical space of the card.</p>
+                        <h3 class="font-heading text-3xl font-medium mb-5">Visual Design</h3>
+                        <p class="text-base opacity-80 mt-auto">Branding, UI/UX, and creative direction for digital and print experiences.</p>
                     </div>
                 </div>
             </a>
             <a href="#" class="project-card-link block no-underline">
                 <div class="project-card-tilt">
                     <div class="project-card border rounded-xl text-center px-6 py-8 backdrop-blur-sm transition duration-300 ease-out min-h-[400px] flex flex-col justify-between">
-                        <h3 class="font-heading text-3xl font-medium mb-5">Project Title 2</h3>
-                        <p class="text-base opacity-80 mt-auto">An interactive application built with modern technologies that solves real-world problems. Creating a seamless user experience with attention to detail.</p>
+                        <h3 class="font-heading text-3xl font-medium mb-5">Development</h3>
+                        <p class="text-base opacity-80 mt-auto">Web, app, and interactive solutions built with modern technologies.</p>
                     </div>
                 </div>
             </a>
             <a href="#" class="project-card-link block no-underline">
                 <div class="project-card-tilt">
                     <div class="project-card border rounded-xl text-center px-6 py-8 backdrop-blur-sm transition duration-300 ease-out min-h-[400px] flex flex-col justify-between">
-                        <h3 class="font-heading text-3xl font-medium mb-5">Project Title 3</h3>
-                        <p class="text-base opacity-80 mt-auto">A creative exploration of animation and user experience design with attention to detail. Pushing the boundaries of what's possible with web technologies.</p>
+                        <h3 class="font-heading text-3xl font-medium mb-5">Video Editing</h3>
+                        <p class="text-base opacity-80 mt-auto">Storytelling through motion, effects, and dynamic video content.</p>
                     </div>
                 </div>
             </a>
             <a href="#" class="project-card-link block no-underline">
                 <div class="project-card-tilt">
                     <div class="project-card border rounded-xl text-center px-6 py-8 backdrop-blur-sm transition duration-300 ease-out min-h-[400px] flex flex-col justify-between">
-                        <h3 class="font-heading text-3xl font-medium mb-5">Project Title 4</h3>
-                        <p class="text-base opacity-80 mt-auto">An innovative solution that combines technical excellence with artistic vision. This project demonstrates my ability to solve complex problems creatively.</p>
+                        <h3 class="font-heading text-3xl font-medium mb-5">Design Thinking</h3>
+                        <p class="text-base opacity-80 mt-auto">Problem-solving with empathy, ideation, and user-centered strategy.</p>
                     </div>
                 </div>
             </a>

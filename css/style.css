@@ -356,7 +356,7 @@ html.dark body.theme-dark nav a.active {
   stroke-linejoin: round;
 }
 body.theme-light .neon-border-path {
-  stroke: #0077ff;
+  stroke: #ff007f !important;
   filter: none;
 }
 
@@ -375,6 +375,46 @@ html:not(.dark) { color-scheme: light; } /* Use light scheme for light mode */
     opacity: 0.8; /* Slightly reduced from 0.9 */
     transform-origin: center center;
     box-shadow: 0 0 5px currentColor, 0 0 2px #fff; /* Reduced shadow size */
+}
+
+/* Perfect circular image with neon glow border */
+.image-neon-border {
+    position: relative;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: visible;
+    border-width: 4px !important;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 70%); /* subtle inner glow */
+}
+
+/* Light theme image neon glow */
+.theme-light .image-neon-border {
+    box-shadow: 
+        0 0 15px rgba(255, 0, 127, 0.5),
+        0 0 25px rgba(255, 0, 127, 0.3),
+        inset 0 0 10px rgba(255, 0, 127, 0.2);
+    animation: pulse-border-pink 3s infinite alternate;
+}
+
+/* Dark theme image neon glow */
+.theme-dark .image-neon-border,
+html.dark .image-neon-border {
+    box-shadow: 
+        0 0 15px rgba(0, 229, 229, 0.5),
+        0 0 25px rgba(0, 229, 229, 0.3),
+        inset 0 0 10px rgba(0, 229, 229, 0.2);
+    animation: pulse-border-cyan 3s infinite alternate;
+}
+
+/* Pulsing animations for the neon borders */
+@keyframes pulse-border-pink {
+    0% { box-shadow: 0 0 15px rgba(255, 0, 127, 0.5), 0 0 25px rgba(255, 0, 127, 0.3), inset 0 0 10px rgba(255, 0, 127, 0.2); }
+    100% { box-shadow: 0 0 20px rgba(255, 0, 127, 0.7), 0 0 35px rgba(255, 0, 127, 0.4), inset 0 0 15px rgba(255, 0, 127, 0.3); }
+}
+
+@keyframes pulse-border-cyan {
+    0% { box-shadow: 0 0 15px rgba(0, 229, 229, 0.5), 0 0 25px rgba(0, 229, 229, 0.3), inset 0 0 10px rgba(0, 229, 229, 0.2); }
+    100% { box-shadow: 0 0 20px rgba(0, 229, 229, 0.7), 0 0 35px rgba(0, 229, 229, 0.4), inset 0 0 15px rgba(0, 229, 229, 0.3); }
 }
 
 /* Background overlay for matrix-like effects */

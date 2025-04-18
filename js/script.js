@@ -265,28 +265,143 @@ if (bottomNav) {
     }
 }
 
+// --- Typewriter Effect ---
+const typewriterElement = document.getElementById('typewriter-text');
+const wordsToCycle = ['Engineer?', 'Designer?', 'Editor?'];
+let wordIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+const typingSpeed = 150;
+const deletingSpeed = 100;
+const delayBetweenWords = 1500;
+
+function typeWriter() {
+    const currentWord = wordsToCycle[wordIndex];
+    let displayText = '';
+
+    if (isDeleting) {
+        // Deleting characters
+        displayText = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+    } else {
+        // Typing characters
+        displayText = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+    }
+
+    if (typewriterElement) {
+        typewriterElement.textContent = displayText;
+        typewriterElement.style.borderRight = '2px solid var(--accent-color)'; // Blinking cursor
+    }
+
+
+    let typeSpeed = isDeleting ? deletingSpeed : typingSpeed;
+
+    if (!isDeleting && charIndex === currentWord.length) {
+        // Word fully typed
+        typeSpeed = delayBetweenWords;
+        isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+        // Word fully deleted
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % wordsToCycle.length;
+        typeSpeed = typingSpeed / 2; // Faster start for next word
+    }
+
+    setTimeout(typeWriter, typeSpeed);
+}
+
+// Start the typewriter effect if the element exists
+if (typewriterElement) {
+    // Add a small delay before starting
+    setTimeout(typeWriter, 500);
+} else {
+    console.error("Typewriter element not found!");
+}
+
 // --- Project Card Flip (Task 5 - Implementation) ---
 document.querySelectorAll('.project-card-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent immediate navigation
-        const card = link.querySelector('.project-card');
-        console.log('Card clicked, flip animation placeholder');
-
-        anime.timeline({
-            targets: card,
-            rotateY: { value: '+=180', delay: 0 }, // Simple flip
-            duration: 600,
-            easing: 'cubicBezier(0.6, 0, 0.4, 1)', // Sharper easing for flip
-            complete: () => {
-                console.log('Flip complete, redirecting...');
-                // window.location.href = link.href; // Redirect after animation
+    let flipped = false;
+    const card = link.querySelector('.project-card');
+    // Setup 3D flip container if not already
+    if (!card.classList.contains('flip-container')) {
+        card.classList.add('flip-container');
+        card.style.transformStyle = 'preserve-3d';
+        card.style.transition = 'transform 0.7s cubic-bezier(0.6, 0, 0.4, 1)';
+        card.style.position = 'relative';
+        // Create back face if not present
+        let backFace = card.querySelector('.project-card-back');
+        if (!backFace) {
+            backFace = document.createElement('div');
+            backFace.className = 'project-card-back';
+            backFace.textContent = 'View More';
+            backFace.style.position = 'absolute';
+            backFace.style.top = 0;
+            backFace.style.left = 0;
+            backFace.style.width = '100%';
+            backFace.style.height = '100%';
+            backFace.style.display = 'flex';
+            backFace.style.alignItems = 'center';
+            backFace.style.justifyContent = 'center';
+            backFace.style.fontSize = '2rem';
+            backFace.style.fontWeight = 'bold';
+            backFace.style.background = 'rgba(0,0,0,0.85)';
+            backFace.style.color = '#fff';
+            backFace.style.borderRadius = 'inherit';
+            backFace.style.backfaceVisibility = 'hidden';
+            backFace.style.transform = 'rotateY(180deg)';
+            backFace.style.zIndex = 2;
+            card.appendChild(backFace);
+        }
+        // Set front face styles
+        card.childNodes.forEach(child => {
+            if (child.nodeType === 1 && !child.classList.contains('project-card-back')) {
+                child.style.backfaceVisibility = 'hidden';
+                child.style.position = 'relative';
+                child.style.zIndex = 3;
             }
         });
-
-        // Add delay before potential redirect (adjust as needed)
-        // setTimeout(() => {
-        //     // window.location.href = link.href; // Redirect here if not using complete callback
-        // }, 800); // Delay should be longer than animation
+    }
+    // Prevent hover/tilt effect when flipped
+    const tiltWrapper = card.closest('.project-card-tilt');
+    if (tiltWrapper) {
+        tiltWrapper.addEventListener('mousemove', (e) => {
+            if (flipped) {
+                e.stopPropagation();
+                return false;
+            }
+        }, true);
+        tiltWrapper.addEventListener('mouseenter', (e) => {
+            if (flipped) {
+                e.stopPropagation();
+                return false;
+            }
+        }, true);
+        tiltWrapper.addEventListener('mouseleave', (e) => {
+            if (flipped) {
+                e.stopPropagation();
+                return false;
+            }
+        }, true);
+    }
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!flipped) {
+            anime({
+                targets: card,
+                rotateY: 180,
+                duration: 700,
+                easing: 'cubicBezier(0.6, 0, 0.4, 1)',
+                update: anim => {
+                    card.style.transform = `rotateY(${anim.animations[0].currentValue}deg)`;
+                },
+                complete: () => {
+                    flipped = true;
+                }
+            });
+        } else {
+            window.location.href = link.href;
+        }
     });
 });
 
@@ -667,4 +782,38 @@ if (themeToggle) {
     });
 
     cardLinks.forEach(link => cardObserver.observe(link));
+})();
+
+// --- About Me Typewriter Effect ---
+(function() {
+    const phrases = ["Engineer?", "Designer?", "Editor?"];
+    const typewriter = document.getElementById('whoami-typewriter');
+    let phraseIdx = 0;
+    let charIdx = 0;
+    let typing = true;
+
+    function type() {
+        if (!typewriter) return;
+        if (typing) {
+            if (charIdx <= phrases[phraseIdx].length) {
+                typewriter.textContent = phrases[phraseIdx].slice(0, charIdx);
+                charIdx++;
+                setTimeout(type, 80);
+            } else {
+                typing = false;
+                setTimeout(type, 1200);
+            }
+        } else {
+            if (charIdx > 0) {
+                typewriter.textContent = phrases[phraseIdx].slice(0, charIdx);
+                charIdx--;
+                setTimeout(type, 40);
+            } else {
+                typing = true;
+                phraseIdx = (phraseIdx + 1) % phrases.length;
+                setTimeout(type, 400);
+            }
+        }
+    }
+    if (typewriter) type();
 })();
