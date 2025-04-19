@@ -935,3 +935,238 @@ if (themeToggle) {
     });
     
 })();
+
+// --- Draggable Neon Square Box in About Section ---
+(function() {
+    const box = document.getElementById('draggable-neon-box');
+    const about = document.getElementById('about');
+    // Find the image placeholder (the neon border circle)
+    const imagePlaceholder = about ? about.querySelector('.image-neon-border') : null;
+    if (!box || !about) return;
+
+    let isDragging = false;
+    let offsetX = 0, offsetY = 0;
+    let aboutRect, boxRect;
+    // Physics variables
+    let velocityX = 0, velocityY = 0;
+    let lastX = 0, lastY = 0;
+    let animating = false;
+    const gravity = 0.25; // px/frame^2 (reduced from 0.7)
+    const bounce = 0.65; // energy loss on bounce
+    const friction = 0.98; // slow down over time
+    let animationFrameId = null;
+    // Glow effect state
+    let glowTimeout = null;
+
+    function clamp(val, min, max) {
+        return Math.max(min, Math.min(max, val));
+    }
+
+    function isOverlappingBoxAndImage() {
+        if (!imagePlaceholder) return false;
+        const boxRect = box.getBoundingClientRect();
+        const imgRect = imagePlaceholder.getBoundingClientRect();
+        // Check for overlap
+        return !(
+            boxRect.right < imgRect.left ||
+            boxRect.left > imgRect.right ||
+            boxRect.bottom < imgRect.top ||
+            boxRect.top > imgRect.bottom
+        );
+    }
+
+    function setBoxGlow(bright) {
+        const neon = box.querySelector('.neon-square');
+        if (!neon) return;
+        if (bright) {
+            neon.style.boxShadow = '0 0 64px 16px #ff007fff, 0 0 0 4px #ff007faa inset';
+            neon.style.borderColor = '#fff';
+            // Make image placeholder glow with direct DOM manipulation
+            if (imagePlaceholder) {
+                const isDark = htmlElement.classList.contains('dark');
+                const color = isDark ? '#00e5e5' : '#ff007f';
+                
+                // Stop any existing animation and apply strong glow
+                imagePlaceholder.style.animation = 'none';
+                imagePlaceholder.style.boxShadow = `0 0 80px 40px ${color}ff, 0 0 15px 8px ${color}aa inset`;
+                imagePlaceholder.style.borderColor = '#fff';
+                imagePlaceholder.style.borderWidth = '6px';
+                
+                // Force DOM reflow to ensure animation restarts
+                void imagePlaceholder.offsetWidth;
+                
+                // Add pulsing animation
+                imagePlaceholder.style.animation = 'pulse-glow-strong 0.6s infinite alternate ease-in-out';
+            }
+        } else {
+            neon.style.boxShadow = '';
+            neon.style.borderColor = '';
+            if (imagePlaceholder) {
+                // Restore default animation/style
+                const isDark = htmlElement.classList.contains('dark');
+                imagePlaceholder.style.animation = isDark ? 
+                    'pulse-border-cyan 3s infinite alternate' : 
+                    'pulse-border-pink 3s infinite alternate';
+                imagePlaceholder.style.boxShadow = '';
+                imagePlaceholder.style.borderColor = '';
+                imagePlaceholder.style.borderWidth = '4px';
+            }
+        }
+    }
+
+    box.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        boxRect = box.getBoundingClientRect();
+        aboutRect = about.getBoundingClientRect();
+        offsetX = e.clientX - boxRect.left;
+        offsetY = e.clientY - boxRect.top;
+        box.style.cursor = 'grabbing';
+        document.body.style.userSelect = 'none';
+        // Stop physics
+        cancelAnimationFrame(animationFrameId);
+        animating = false;
+        velocityX = 0;
+        velocityY = 0;
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        // Calculate new position relative to about section
+        let x = e.clientX - aboutRect.left - offsetX;
+        let y = e.clientY - aboutRect.top - offsetY;
+        // Clamp within about section
+        const minX = 0;
+        const minY = 0;
+        const maxX = aboutRect.width - box.offsetWidth;
+        const maxY = aboutRect.height - box.offsetHeight;
+        x = clamp(x, minX, maxX);
+        y = clamp(y, minY, maxY);
+        box.style.left = x + 'px';
+        box.style.top = y + 'px';
+        // Save for velocity calculation
+        lastX = x;
+        lastY = y;
+        // Glow if overlapping image
+        if (isOverlappingBoxAndImage()) {
+            setBoxGlow(true);
+            clearTimeout(glowTimeout);
+        } else {
+            setBoxGlow(false);
+        }
+    });
+
+    document.addEventListener('mouseup', function(e) {
+        if (isDragging) {
+            isDragging = false;
+            box.style.cursor = 'grab';
+            document.body.style.userSelect = '';
+            // Calculate velocity for physics
+            const x = parseFloat(box.style.left);
+            const y = parseFloat(box.style.top);
+            velocityX = (x - lastX) * 0.7; // scale for feel
+            velocityY = (y - lastY) * 0.7;
+            // Start physics animation
+            animating = true;
+            requestAnimationFrame(physicsStep);
+        }
+    });
+
+    function physicsStep() {
+        if (!animating) return;
+        let x = parseFloat(box.style.left) || 0;
+        let y = parseFloat(box.style.top) || 0;
+        velocityY += gravity;
+        x += velocityX;
+        y += velocityY;
+        // Bounce off edges
+        const minX = 0;
+        const minY = 0;
+        const maxX = about.offsetWidth - box.offsetWidth;
+        const maxY = about.offsetHeight - box.offsetHeight;
+        let bounced = false;
+        if (x < minX) {
+            x = minX;
+            velocityX = -velocityX * bounce;
+            bounced = true;
+        } else if (x > maxX) {
+            x = maxX;
+            velocityX = -velocityX * bounce;
+            bounced = true;
+        }
+        if (y < minY) {
+            y = minY;
+            velocityY = -velocityY * bounce;
+            bounced = true;
+        } else if (y > maxY) {
+            y = maxY;
+            velocityY = -velocityY * bounce;
+            bounced = true;
+        }
+        // Friction
+        velocityX *= friction;
+        velocityY *= friction;
+        box.style.left = x + 'px';
+        box.style.top = y + 'px';
+        // Glow if overlapping image
+        if (isOverlappingBoxAndImage()) {
+            setBoxGlow(true);
+            clearTimeout(glowTimeout);
+        } else if (!isDragging) {
+            setBoxGlow(false);
+        }
+        // Stop if very slow
+        if (Math.abs(velocityX) < 0.5 && Math.abs(velocityY) < 0.5 && y >= maxY) {
+            animating = false;
+            setBoxGlow(false);
+            return;
+        }
+        animationFrameId = requestAnimationFrame(physicsStep);
+    }
+
+    // Touch support (optional, for mobile)
+    box.addEventListener('touchstart', function(e) {
+        if (e.touches.length !== 1) return;
+        isDragging = true;
+        boxRect = box.getBoundingClientRect();
+        aboutRect = about.getBoundingClientRect();
+        offsetX = e.touches[0].clientX - boxRect.left;
+        offsetY = e.touches[0].clientY - boxRect.top;
+        box.style.cursor = 'grabbing';
+        document.body.style.userSelect = 'none';
+        cancelAnimationFrame(animationFrameId);
+        animating = false;
+        velocityX = 0;
+        velocityY = 0;
+    });
+    document.addEventListener('touchmove', function(e) {
+        if (!isDragging || e.touches.length !== 1) return;
+        let x = e.touches[0].clientX - aboutRect.left - offsetX;
+        let y = e.touches[0].clientY - aboutRect.top - offsetY;
+        const minX = 0;
+        const minY = 0;
+        const maxX = aboutRect.width - box.offsetWidth;
+        const maxY = aboutRect.height - box.offsetHeight;
+        x = clamp(x, minX, maxX);
+        y = clamp(y, minY, maxY);
+        box.style.left = x + 'px';
+        box.style.top = y + 'px';
+        lastX = x;
+        lastY = y;
+        if (isOverlappingBoxAndImage()) {
+            setBoxGlow(true);
+            clearTimeout(glowTimeout);
+        } else {
+            setBoxGlow(false);
+        }
+    }, {passive: false});
+    document.addEventListener('touchend', function(e) {
+        if (isDragging) {
+            isDragging = false;
+            box.style.cursor = 'grab';
+            document.body.style.userSelect = '';
+            velocityX = 0;
+            velocityY = 0;
+            setBoxGlow(false);
+        }
+    });
+})();

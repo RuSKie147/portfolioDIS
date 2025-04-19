@@ -43,9 +43,13 @@
     <!-- COMPLETELY REBUILT ABOUT SECTION WITH ABSOLUTE POSITIONING -->
     <section id="about" class="min-h-screen w-full relative flex">
         <!-- Left half - Image (centered, slightly smaller) -->
-        <div class="w-full md:w-1/2 flex items-center justify-center">
-            <div class="w-[22rem] h-[22rem] md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] rounded-full image-neon-border flex items-center justify-center">
+        <div class="w-full md:w-1/2 flex items-center justify-center relative">
+            <div class="w-[22rem] h-[22rem] md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] rounded-full image-neon-border flex items-center justify-center relative">
                 <span class="text-4xl md:text-5xl text-pink-500 dark:text-cyan-300 opacity-70 select-none">Your Image<br>Here</span>
+            </div>
+            <!-- Draggable Neon Square Box -->
+            <div id="draggable-neon-box" class="absolute" style="top: 40px; left: 40px; width: 64px; height: 64px; cursor: grab; z-index: 30;">
+                <div class="neon-square"></div>
             </div>
         </div>
         
@@ -73,7 +77,6 @@
         <!-- Apply neon glow based on theme -->
         <h2 class="font-heading text-5xl font-semibold text-center theme-light:neon-glow-blue dark:neon-glow-magenta" style="margin-bottom: 12rem;">PROJECTS_</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-16 max-w-6xl mx-auto px-6">
-            <!-- Add links to project cards -->
             <a href="#" class="project-card-link block no-underline">
                 <div class="project-card-tilt">
                     <div class="project-card border rounded-xl text-center px-6 py-8 backdrop-blur-sm transition duration-300 ease-out min-h-[400px] flex flex-col justify-between">
@@ -109,9 +112,9 @@
         </div>
     </section>
 
-    <section id="testimonials" class="py-24 relative overflow-hidden">
+    <section id="testimonials" class="min-h-screen py-24 relative overflow-hidden flex flex-col justify-center">
         <!-- Apply neon glow based on theme -->
-        <h2 class="font-heading text-5xl font-semibold text-center mb-16 theme-light:neon-glow-blue dark:neon-glow-magenta">TESTIMONIALS_</h2>
+        <h2 class="font-heading text-5xl font-semibold text-center mb-32 theme-light:neon-glow-blue dark:neon-glow-magenta">TESTIMONIALS_</h2>
         
         <div class="testimonial-container max-w-6xl mx-auto px-6">
             <!-- Arrow Navigation -->
