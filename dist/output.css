@@ -27,6 +27,9 @@
 .z-10 {
   z-index: 10;
 }
+.z-40 {
+  z-index: 40;
+}
 .z-50 {
   z-index: 50;
 }
@@ -466,8 +469,11 @@
 .hidden {
   display: none;
 }
-.h-\[22rem\] {
-  height: 22rem;
+.inline-block {
+  display: inline-block;
+}
+.h-\[14rem\] {
+  height: 14rem;
 }
 .min-h-\[400px\] {
   min-height: 400px;
@@ -475,8 +481,8 @@
 .min-h-screen {
   min-height: 100vh;
 }
-.w-\[22rem\] {
-  width: 22rem;
+.w-\[14rem\] {
+  width: 14rem;
 }
 .w-full {
   width: 100%;
@@ -493,6 +499,9 @@
 .flex-col {
   flex-direction: column;
 }
+.flex-row {
+  flex-direction: row;
+}
 .items-center {
   align-items: center;
 }
@@ -501,6 +510,9 @@
 }
 .justify-center {
   justify-content: center;
+}
+.justify-evenly {
+  justify-content: space-evenly;
 }
 .overflow-hidden {
   overflow: hidden;
@@ -528,6 +540,12 @@
 .font-sans {
   font-family: Rajdhani, sans-serif;
 }
+.text-\[2\.5rem\] {
+  font-size: 2.5rem;
+}
+.text-\[2rem\] {
+  font-size: 2rem;
+}
 .no-underline {
   text-decoration-line: none;
 }
@@ -536,9 +554,6 @@
 }
 .opacity-80 {
   opacity: 80%;
-}
-.opacity-90 {
-  opacity: 90%;
 }
 .transition {
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter;
@@ -572,28 +587,6 @@
 .dark\:inline {
   &:is(.dark *) {
     display: inline;
-  }
-}
-.dark\:prose-invert {
-  &:is(.dark *) {
-    --tw-prose-body: var(--tw-prose-invert-body);
-    --tw-prose-headings: var(--tw-prose-invert-headings);
-    --tw-prose-lead: var(--tw-prose-invert-lead);
-    --tw-prose-links: var(--tw-prose-invert-links);
-    --tw-prose-bold: var(--tw-prose-invert-bold);
-    --tw-prose-counters: var(--tw-prose-invert-counters);
-    --tw-prose-bullets: var(--tw-prose-invert-bullets);
-    --tw-prose-hr: var(--tw-prose-invert-hr);
-    --tw-prose-quotes: var(--tw-prose-invert-quotes);
-    --tw-prose-quote-borders: var(--tw-prose-invert-quote-borders);
-    --tw-prose-captions: var(--tw-prose-invert-captions);
-    --tw-prose-kbd: var(--tw-prose-invert-kbd);
-    --tw-prose-kbd-shadows: var(--tw-prose-invert-kbd-shadows);
-    --tw-prose-code: var(--tw-prose-invert-code);
-    --tw-prose-pre-code: var(--tw-prose-invert-pre-code);
-    --tw-prose-pre-bg: var(--tw-prose-invert-pre-bg);
-    --tw-prose-th-borders: var(--tw-prose-invert-th-borders);
-    --tw-prose-td-borders: var(--tw-prose-invert-td-borders);
   }
 }
 body {

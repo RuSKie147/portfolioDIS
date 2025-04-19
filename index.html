@@ -11,6 +11,14 @@
 </head>
 <body class="theme-light font-sans transition-colors duration-300"> <!-- Restore theme-light class, remove Tailwind color/bg classes -->
 
+    <!-- Top Navigation Bar -->
+    <nav id="top-nav" class="fixed top-8 right-32 flex z-50">
+        <a href="#about" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading mr-6">About</a>
+        <a href="#projects" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading mr-6">Project</a>
+        <a href="#testimonials" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading mr-6">Reviews</a>
+        <a href="#contact" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading">Contact</a>
+    </nav>
+
     <!-- Theme Toggle Button (just the SVG icon) -->
     <button id="theme-toggle" class="fixed top-8 right-8 z-50 transition focus:outline-none" style="background: transparent; border: none; padding: 0; box-shadow: none; top:1.5rem; right: 2rem; left: auto;"
             aria-label="Toggle theme">
@@ -44,12 +52,14 @@
     <section id="about" class="min-h-screen w-full relative flex">
         <!-- Left half - Image (centered, slightly smaller) -->
         <div class="w-full md:w-1/2 flex items-center justify-center relative">
-            <div class="w-[22rem] h-[22rem] md:w-[26rem] md:h-[26rem] lg:w-[30rem] lg:h-[30rem] rounded-full image-neon-border flex items-center justify-center relative">
-                <span class="text-4xl md:text-5xl text-pink-500 dark:text-cyan-300 opacity-70 select-none">Your Image<br>Here</span>
+            <div class="w-[14rem] h-[14rem] md:w-[18rem] md:h-[18rem] lg:w-[20rem] lg:h-[20rem] rounded-full image-neon-border flex items-center justify-center relative">
+                <img src="images/rajred3.png" alt="Raj Shri Krishnam" style="width:100%; height:100%; object-fit:contain; border-radius: 50%; opacity:1; background: black;" />
+                <span class="text-4xl md:text-5xl text-pink-500 dark:text-cyan-300 opacity-70 select-none"></span>
             </div>
             <!-- Draggable Neon Square Box -->
-            <div id="draggable-neon-box" class="absolute" style="top: 40px; left: 40px; width: 64px; height: 64px; cursor: grab; z-index: 30;">
-                <div class="neon-square"></div>
+            <div id="draggable-neon-box" class="absolute" style="top: 40px; left: 40px; width: 64px; height: 64px; cursor: grab; z-index: 30; display: flex; align-items: center;">
+                <div class="neon-square" style="width: 64px; height: 64px;"></div>
+                <span id="drag-me-label" style="margin-left: 1.2rem; color: #ff007f; font-family: 'Orbitron', monospace; font-size: 1.1rem; letter-spacing: 0.05em; opacity: 0.85; user-select: none; transition: opacity 0.3s;">drag me</span>
             </div>
         </div>
         
@@ -203,13 +213,59 @@
         </div>
     </section>
 
-    <section id="story" class="py-24 backdrop-blur-md"> <!-- Remove bg classes -->
-        <!-- Apply neon glow based on theme -->
-        <h2 class="font-heading text-5xl font-semibold text-center mb-16 theme-light:neon-glow-blue dark:neon-glow-magenta">MY_STORY</h2>
-        <!-- Remove Tailwind color classes -->
-        <div class="prose dark:prose-invert max-w-3xl mx-auto px-4 opacity-90"> <!-- Adjusted dark opacity -->
-            <p>This section will contain visual storytelling elements, perhaps using scroll-triggered animations later.</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
+    <section id="contact" class="min-h-screen py-24 backdrop-blur-md relative overflow-hidden flex flex-col justify-center">
+        <h2 class="font-heading text-[2.5rem] md:text-[4.2rem] font-extrabold text-center theme-light:neon-glow-blue dark:neon-glow-magenta" style="margin-bottom: 7rem;">CONNECT_/</h2>
+        <div class="w-full px-16 md:px-32 lg:px-48 text-center flex flex-col items-center" style="gap: 5.5rem;"> 
+            <h3 class="text-[2rem] md:text-[1.8rem] lg:text-[2.9rem] font-heading glitch-text font-bold" style="margin-bottom: 0;">Let's Work Together</h3>
+            <div class="flex flex-row justify-evenly items-center w-full" style="margin-bottom: 0;">
+                <a href="mailto:raj23422@iiitd.ac.in" class="social-icon-link group" data-tooltip="Send E-Mail">
+                    <div class="social-icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="social-icon" viewBox="0 0 24 24" stroke-width="1.5" fill="none">
+                            <path stroke="currentColor" d="M22 8.5V15.5C22 19 20 20.5 17 20.5H7C4 20.5 2 19 2 15.5V8.5C2 5 4 3.5 7 3.5H17C20 3.5 22 5 22 8.5Z" />
+                            <path stroke="currentColor" d="M17 9L13.87 11.5C12.84 12.32 11.15 12.32 10.12 11.5L7 9" />
+                        </svg>
+                        <span class="social-label font-mono text-xs">EMAIL</span>
+                    </div>
+                </a>
+                
+                <a href="https://github.com/RuSKie147" target="_blank" rel="noopener noreferrer" class="social-icon-link group" data-tooltip="Access Code Repository">
+                    <div class="social-icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="social-icon" viewBox="0 0 24 24" stroke-width="1.5" fill="none">
+                            <path stroke="currentColor" d="M12 2C6.48 2 2 6.48 2 12C2 16.42 4.87 20.17 8.84 21.5C9.34 21.58 9.5 21.27 9.5 21C9.5 20.77 9.5 20.14 9.5 19.31C6.73 19.91 6.14 17.97 6.14 17.97C5.68 16.81 5.03 16.5 5.03 16.5C4.12 15.88 5.1 15.9 5.1 15.9C6.1 15.97 6.63 16.93 6.63 16.93C7.5 18.45 8.97 18 9.54 17.76C9.63 17.11 9.89 16.67 10.17 16.42C7.95 16.17 5.62 15.31 5.62 11.5C5.62 10.39 6 9.5 6.65 8.79C6.55 8.54 6.2 7.5 6.75 6.15C6.75 6.15 7.59 5.88 9.5 7.17C10.29 6.95 11.15 6.84 12 6.84C12.85 6.84 13.71 6.95 14.5 7.17C16.41 5.88 17.25 6.15 17.25 6.15C17.8 7.5 17.45 8.54 17.35 8.79C18 9.5 18.38 10.39 18.38 11.5C18.38 15.32 16.04 16.16 13.81 16.41C14.17 16.72 14.5 17.33 14.5 18.26C14.5 19.6 14.5 20.68 14.5 21C14.5 21.27 14.66 21.59 15.17 21.5C19.14 20.16 22 16.42 22 12C22 6.48 17.52 2 12 2Z" />
+                        </svg>
+                        <span class="social-label font-mono text-xs">GITHUB</span>
+                    </div>
+                </a>
+                
+                <a href="https://in.linkedin.com/in/raj-shri-krishnam-25a715284" target="_blank" rel="noopener noreferrer" class="social-icon-link group" data-tooltip="Network Connection">
+                    <div class="social-icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="social-icon" viewBox="0 0 24 24" stroke-width="1.5" fill="none">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                            <rect stroke="currentColor" x="2" y="9" width="4" height="12" rx="1"/>
+                            <circle stroke="currentColor" cx="4" cy="4" r="2" fill="currentColor"/>
+                        </svg>
+                        <span class="social-label font-mono text-xs">LINKEDIN</span>
+                    </div>
+                </a>
+                
+                <a href="https://www.instagram.com/_clraj_/profilecard/?igsh=aXJydHA2NDZpdXdx" target="_blank" rel="noopener noreferrer" class="social-icon-link group" data-tooltip="Visual Feed">
+                    <div class="social-icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="social-icon" viewBox="0 0 24 24" stroke-width="1.5" fill="none">
+                            <rect stroke="currentColor" x="2" y="2" width="20" height="20" rx="5" />
+                            <circle stroke="currentColor" cx="12" cy="12" r="4" />
+                            <path stroke="currentColor" d="M18 6L18.0001 6.00999" stroke-linecap="round" />
+                        </svg>
+                        <span class="social-label font-mono text-xs">INSTA</span>
+                    </div>
+                </a>
+            </div>
+            <div style="margin-top: 0;">
+                <a href="#" class="cyberpunk-button inline-block relative overflow-hidden">
+                    <span class="cyberpunk-button-glitch"></span>
+                    <span class="cyberpunk-button-text px-8 py-4 relative z-10 font-heading font-bold tracking-wider text-lg">RESUME</span>
+                </a>
+            </div>
+            <div class="circuit-decoration"></div>
         </div>
     </section>
 
@@ -220,7 +276,7 @@
         <!-- Add tooltips -->
         <a href="#home" id="nav-home" class="transition-colors relative" data-tooltip="Go to Home">Home</a>
         <a href="#projects" id="nav-projects" class="transition-colors relative" data-tooltip="View Projects">Projects</a>
-        <a href="#story" id="nav-story" class="transition-colors relative" data-tooltip="Read My Story">Story</a>
+        <a href="#contact" id="nav-story" class="transition-colors relative" data-tooltip="Read My Story">Story</a>
     </nav>
 
     <!-- Import Anime.js -->

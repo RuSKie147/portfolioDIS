@@ -940,6 +940,7 @@ if (themeToggle) {
 (function() {
     const box = document.getElementById('draggable-neon-box');
     const about = document.getElementById('about');
+    const dragMeLabel = document.getElementById('drag-me-label');
     // Find the image placeholder (the neon border circle)
     const imagePlaceholder = about ? about.querySelector('.image-neon-border') : null;
     if (!box || !about) return;
@@ -1012,6 +1013,19 @@ if (themeToggle) {
                 imagePlaceholder.style.borderWidth = '4px';
             }
         }
+    }
+
+    if (box && dragMeLabel) {
+        let labelHidden = false;
+        function hideLabel() {
+            if (!labelHidden) {
+                dragMeLabel.style.opacity = '0';
+                setTimeout(() => dragMeLabel.style.display = 'none', 350);
+                labelHidden = true;
+            }
+        }
+        box.addEventListener('mousedown', hideLabel);
+        box.addEventListener('touchstart', hideLabel);
     }
 
     box.addEventListener('mousedown', function(e) {
@@ -1169,4 +1183,124 @@ if (themeToggle) {
             setBoxGlow(false);
         }
     });
+})();
+
+// --- Add circuit decoration to contact section ---
+(function() {
+    const contactSection = document.getElementById('contact');
+    const circuitDecoration = contactSection ? contactSection.querySelector('.circuit-decoration') : null;
+    
+    if (!circuitDecoration) return;
+    
+    function createCircuitDecorationForContact() {
+        // Clear existing nodes
+        circuitDecoration.innerHTML = '';
+        
+        // Get section dimensions
+        const width = contactSection.offsetWidth;
+        const height = contactSection.offsetHeight;
+        
+        // Create cyberpunk circuit nodes
+        const nodeCount = Math.floor((width * height) / 15000); // More density than background
+        const nodes = [];
+        
+        for (let i = 0; i < nodeCount; i++) {
+            // Create circuit node
+            const node = document.createElement('div');
+            node.classList.add('circuit-node');
+            
+            // Position randomly across full width and height
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+            
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+            
+            // Set theme-aware color
+            const isDark = htmlElement.classList.contains('dark');
+            const nodeColor = isDark ? '#00e5e5' : '#ff007f';
+            node.style.backgroundColor = nodeColor;
+            
+            // Randomize size for visual interest
+            const size = 3 + Math.random() * 6;
+            node.style.width = `${size}px`;
+            node.style.height = `${size}px`;
+            
+            circuitDecoration.appendChild(node);
+            nodes.push({ element: node, x, y, size });
+        }
+        
+        // Connect nodes with lines
+        for (let i = 0; i < nodes.length; i++) {
+            const maxConnections = Math.floor(Math.random() * 3) + 1;
+            
+            for (let j = 0; j < maxConnections; j++) {
+                // Find another node to connect to
+                const otherIndex = Math.floor(Math.random() * nodes.length);
+                
+                // Skip self-connections
+                if (otherIndex === i) continue;
+                
+                const node1 = nodes[i];
+                const node2 = nodes[otherIndex];
+                
+                // Calculate distance
+                const dx = node2.x - node1.x;
+                const dy = node2.y - node1.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Only connect if reasonably close
+                if (distance < 250) {
+                    const line = document.createElement('div');
+                    line.classList.add('circuit-line');
+                    
+                    // Position and size the line
+                    line.style.left = `${node1.x}px`;
+                    line.style.top = `${node1.y}px`;
+                    line.style.width = `${distance}px`;
+                    
+                    // Calculate rotation angle
+                    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                    line.style.transform = `rotate(${angle}deg)`;
+                    
+                    // Set color based on theme with varying opacity
+                    const isDark = htmlElement.classList.contains('dark');
+                    const lineColor = isDark ? 
+                        `rgba(0, 229, 229, ${0.1 + Math.random() * 0.3})` : 
+                        `rgba(255, 0, 127, ${0.1 + Math.random() * 0.3})`;
+                    line.style.backgroundColor = lineColor;
+                    
+                    circuitDecoration.appendChild(line);
+                }
+            }
+        }
+    }
+    
+    // Create initial decoration
+    createCircuitDecorationForContact();
+    
+    // Recreate on resize
+    window.addEventListener('resize', () => {
+        clearTimeout(window.contactCircuitTimeout);
+        window.contactCircuitTimeout = setTimeout(createCircuitDecorationForContact, 200);
+    });
+    
+    // Update on theme change
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            // Small delay to allow theme change first
+            setTimeout(createCircuitDecorationForContact, 50);
+        });
+    }
+})();
+
+// --- Update bottom nav links ---
+(function() {
+    // Update the link that was pointing to #story to now point to #contact
+    const storyNavLink = document.querySelector('#nav-story');
+    if (storyNavLink) {
+        storyNavLink.setAttribute('href', '#contact');
+        storyNavLink.setAttribute('data-tooltip', 'Connect With Me');
+        storyNavLink.textContent = 'Connect';
+    }
 })();
