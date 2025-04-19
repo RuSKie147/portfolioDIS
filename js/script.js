@@ -763,3 +763,175 @@ if (themeToggle) {
     }
     if (typewriter) type();
 })();
+
+// --- Testimonial Carousel (Auto-scrolling and Swipe Gestures) ---
+(function() {
+    const slider = document.querySelector('.testimonials-slider');
+    const prevBtn = document.querySelector('.testimonial-prev');
+    const nextBtn = document.querySelector('.testimonial-next');
+    const dots = document.querySelectorAll('.pagination-dot');
+    
+    if (!slider) return;
+
+    // Variables
+    let currentIndex = 0;
+    let startX, scrollLeft, isDown = false;
+    let autoScrollInterval;
+    const testimonials = slider.querySelectorAll('.testimonial-card');
+    const slideCount = testimonials.length;
+    
+    // Initialize
+    const updatePagination = (index) => {
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    };
+
+    const scrollToCard = (index) => {
+        if (index < 0) index = 0;
+        if (index >= slideCount) index = slideCount - 1;
+        
+        currentIndex = index;
+        const card = testimonials[index];
+        
+        slider.scrollTo({
+            left: card.offsetLeft - (slider.clientWidth - card.offsetWidth) / 2,
+            behavior: 'smooth'
+        });
+        
+        updatePagination(index);
+        resetAutoScroll();
+    };
+    
+    // Auto-scrolling functionality
+    const startAutoScroll = () => {
+        autoScrollInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % slideCount;
+            scrollToCard(currentIndex);
+        }, 5000); // Change every 5 seconds
+    };
+    
+    const resetAutoScroll = () => {
+        clearInterval(autoScrollInterval);
+        startAutoScroll();
+    };
+    
+    // Mouse & Touch Events for slider
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+        // Stop auto-scroll while user is interacting
+        clearInterval(autoScrollInterval);
+    });
+    
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('active');
+        resetAutoScroll();
+    });
+    
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('active');
+        
+        // After releasing, snap to closest card
+        const cardWidth = testimonials[0].offsetWidth + parseInt(getComputedStyle(testimonials[0]).marginRight);
+        const scrollPosition = slider.scrollLeft;
+        const closestIndex = Math.round(scrollPosition / cardWidth);
+        
+        scrollToCard(closestIndex);
+    });
+    
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2; // Speed multiplier
+        slider.scrollLeft = scrollLeft - walk;
+    });
+    
+    // Touch events for mobile swipe
+    slider.addEventListener('touchstart', (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+        clearInterval(autoScrollInterval);
+    }, { passive: true });
+    
+    slider.addEventListener('touchend', () => {
+        isDown = false;
+        
+        // Snap to closest card
+        const cardWidth = testimonials[0].offsetWidth + parseInt(getComputedStyle(testimonials[0]).marginRight);
+        const scrollPosition = slider.scrollLeft;
+        const closestIndex = Math.round(scrollPosition / cardWidth);
+        
+        scrollToCard(closestIndex);
+    });
+    
+    slider.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2;
+        slider.scrollLeft = scrollLeft - walk;
+    }, { passive: true });
+    
+    // Navigation buttons
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            scrollToCard(currentIndex - 1);
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            scrollToCard(currentIndex + 1);
+        });
+    }
+    
+    // Pagination dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            scrollToCard(index);
+        });
+    });
+
+    // Initialize with first testimonial active and start auto-scrolling
+    updatePagination(0);
+    startAutoScroll();
+    
+    // Handle scroll events from the user to update state
+    slider.addEventListener('scroll', () => {
+        const cardWidth = testimonials[0].offsetWidth + parseInt(getComputedStyle(testimonials[0]).marginRight);
+        const newIndex = Math.round(slider.scrollLeft / cardWidth);
+        
+        if (newIndex !== currentIndex) {
+            currentIndex = newIndex;
+            updatePagination(currentIndex);
+        }
+    });
+    
+    // Add testimonial reveal animation using Intersection Observer
+    const testimonialObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+                testimonialObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    
+    // Initially set opacity to 0 and observe for reveal
+    testimonials.forEach((card, index) => {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(20px)';
+        card.style.transitionDelay = `${index * 100}ms`;
+        card.style.transition = 'opacity 0.6s cubic-bezier(0.6, 0, 0.4, 1), transform 0.6s cubic-bezier(0.6, 0, 0.4, 1)';
+        testimonialObserver.observe(card);
+    });
+    
+})();
