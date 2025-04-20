@@ -860,6 +860,22 @@ html.dark .image-neon-border {
         max-width: 95vw;
         aspect-ratio: 3/4;
         min-height: 340px;
+        margin-bottom: 2.5rem !important; /* Add bottom margin for spacing between cards */
+    }
+  
+    #projects .grid {
+        gap: 3rem !important; /* Increase gap in grid layout */
+        padding-bottom: 2rem; /* Add padding at the bottom of the grid */
+    }
+  
+    /* Fix project section spacing */
+    #projects {
+        padding-bottom: 4rem !important;
+    }
+  
+    /* Add more space between project cards in grid */
+    #projects .project-card-link {
+        margin-bottom: 1.5rem !important;
     }
 }
 
@@ -1309,4 +1325,176 @@ html.dark #avatar-image-wrapper {
     height: 100% !important;
     object-fit: cover !important;
     display: block !important;
+}
+
+/* --- Mobile Responsiveness Improvements --- */
+@media (max-width: 767px) {
+  /* Improve home section */
+  #home h1 {
+    font-size: 2.5rem !important;
+    padding: 0 1rem;
+    line-height: 1.2;
+  }
+  
+  /* Fix about section on mobile */
+  #about {
+    flex-direction: column !important;
+  }
+  
+  #about .w-full.md\:w-1\/2 {
+    width: 100% !important;
+    padding: 2rem 1rem !important;
+  }
+  
+  /* Center the text on mobile */
+  #about .w-full.md\:w-1\/2:last-child {
+    padding-right: 1rem !important;
+    text-align: center;
+  }
+  
+  #about p {
+    font-size: 1.2rem !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Fix the image size and drag-me box positioning */
+  #about .image-neon-border {
+    width: 12rem !important;
+    height: 12rem !important;
+    margin: 0 auto;
+  }
+  
+  #draggable-neon-box {
+    position: absolute !important;
+    top: auto !important;
+    bottom: -10px;
+    left: 50% !important;
+    transform: translateX(-50%);
+  }
+  
+  /* Projects section improvements */
+  #projects h2 {
+    margin-bottom: 3rem !important;
+  }
+  
+  .project-card {
+    height: auto !important;
+    min-height: 300px !important;
+  }
+  
+  /* Testimonials section */
+  #testimonials h2 {
+    margin-bottom: 3rem !important;
+  }
+  
+  .testimonial-nav {
+    top: calc(50% - 3rem);
+  }
+  
+  /* Contact section */
+  #contact h2 {
+    margin-bottom: 3rem !important;
+    font-size: 2rem !important;
+  }
+  
+  #contact h3 {
+    font-size: 1.5rem !important;
+  }
+  
+  #contact .w-full.px-16 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    gap: 3rem !important;
+  }
+  
+  #contact .flex.flex-row {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  /* Ensure top nav doesn't appear on mobile */
+  #top-nav {
+    display: none !important;
+  }
+}
+
+/* Fix bottom navigation bar on small screens */
+@media (max-width: 380px) {
+  #bottom-nav {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  #bottom-nav a {
+    font-size: 0.9rem;
+  }
+  
+  #bottom-nav .space-x-10 > * + * {
+    margin-left: 1.5rem !important;
+  }
+}
+
+/* Fix the avatar chatbot on small screens */
+@media (max-width: 480px) {
+  #avatar-container {
+    bottom: 4rem !important;
+    right: 0.5rem !important;
+  }
+  
+  #avatar-speech {
+    max-width: 150px !important;
+    font-size: 0.8rem !important;
+    padding: 8px 10px !important;
+  }
+  
+  #avatar-image-wrapper {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+  }
+}
+
+/* Add these styles to improve testimonials on mobile */
+@media (max-width: 639px) {
+  /* Testimonial card adjustments for small screens */
+  .testimonial-card {
+    flex: 0 0 calc(100% - 2rem) !important; /* Reduce from 100% - 1rem */
+    max-width: calc(100% - 2rem) !important; /* Set explicit max-width */
+    margin: 1rem 0.5rem !important; /* Keep small margin */
+    padding: 1.25rem !important; /* Slightly smaller padding */
+    box-sizing: border-box !important; /* Ensure padding is included in width */
+  }
+  
+  /* Fix testimonial container and slider */
+  .testimonial-container {
+    padding: 0 !important; /* Remove container padding */
+    max-width: 95% !important; /* Prevent container from being too wide */
+    margin: 0 auto !important; /* Center the container */
+  }
+  
+  .testimonials-slider {
+    margin: 0 !important; /* Remove negative margins */
+    padding: 0.5rem 0 !important; /* Reduced padding */
+    width: 100% !important; /* Control width */
+  }
+  
+  /* Adjust testimonial text for smaller screens */
+  .testimonial-text {
+    font-size: 0.95rem !important; /* Slightly smaller text */
+    padding-right: 0 !important; /* Remove padding */
+    line-height: 1.5 !important; /* Tighter line height */
+  }
+}
+
+/* Improve testimonials container on medium screens */
+@media (max-width: 767px) and (min-width: 640px) {
+  .testimonial-container {
+    padding: 0 1rem !important;
+  }
+  
+  .testimonial-card {
+    flex: 0 0 calc(90% - 2rem) !important;
+  }
 }
