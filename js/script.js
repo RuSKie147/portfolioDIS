@@ -1304,3 +1304,351 @@ if (themeToggle) {
         storyNavLink.textContent = 'Connect';
     }
 })();
+
+// --- Avatar Chatbot Logic ---
+(function() {
+    console.log("Avatar Chatbot IIFE executing..."); // <-- ADD Log
+
+    const avatarContainer = document.getElementById('avatar-container');
+    const avatarSpeech = document.getElementById('avatar-speech');
+    const avatarImageWrapper = document.getElementById('avatar-image-wrapper');
+    const avatarImg = document.getElementById('avatar-img');
+
+    if (!avatarContainer || !avatarSpeech || !avatarImageWrapper || !avatarImg) {
+        console.error("CRITICAL: Avatar elements not found. Check HTML IDs."); // <-- Change to error
+        // Log which specific element is missing
+        if (!avatarContainer) console.error("Missing: #avatar-container");
+        if (!avatarSpeech) console.error("Missing: #avatar-speech");
+        if (!avatarImageWrapper) console.error("Missing: #avatar-image-wrapper");
+        if (!avatarImg) console.error("Missing: #avatar-img");
+        return; // Stop execution if elements are missing
+    } else {
+        console.log("Avatar elements found successfully:", {
+            container: avatarContainer,
+            speech: avatarSpeech,
+            wrapper: avatarImageWrapper,
+            img: avatarImg
+        }); // <-- ADD Log
+    }
+
+    // --- Avatar States (Keep as is) ---
+    const avatarStates = {
+        idle:       "images/chatbot-calm.png",
+        talking:    "images/chatbot-exclamation.png",
+        thinking:   "images/chatbot-loading.png",
+        happy:      "images/chatbot-happy.png",
+        sad:        "images/chatbot-sad.png",
+        worried:    "images/chatbot-worried.png",
+        mail:       "images/chatbot-mail.png",
+        redAlert:   "images/chatbot-redAlert.png",
+        love:       "images/chatbot-love.png",
+        buffering:  "images/chatbot-buffering.png"
+    };
+
+    // --- setAvatarState Function (Keep as is) ---
+    function setAvatarState(state) {
+        if (!avatarStates[state]) {
+            console.warn(`Avatar state "${state}" not found. Defaulting to idle.`);
+            state = 'idle';
+        }
+        const newStateSrc = avatarStates[state];
+        if (avatarImg.src !== newStateSrc && newStateSrc) {
+            const currentBase = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+            const absoluteSrc = newStateSrc.startsWith('http') ? newStateSrc : `${currentBase}/${newStateSrc}`;
+            if (avatarImg.src !== absoluteSrc) {
+                 avatarImg.src = newStateSrc;
+            }
+        }
+        const allStateClasses = [
+            'avatar-idle', 'avatar-talking', 'avatar-thinking', 'avatar-happy',
+            'avatar-sad', 'avatar-worried', 'avatar-mail', 'avatar-redAlert',
+            'avatar-love', 'avatar-buffering'
+        ];
+        avatarImageWrapper.classList.remove(...allStateClasses);
+        avatarImageWrapper.classList.add(`avatar-${state}`);
+    }
+
+    const messages = {
+        greetings: {
+            morning: "Good morning! Welcome to my digital portfolio. Scroll down to explore my projects.",
+            afternoon: "Good afternoon. My systems are online and ready to guide you through my work.",
+            evening: "Good evening. The ideal time to explore digital creations. Scroll down to begin.",
+            night: "Working late? Me too. Feel free to explore my projects - just scroll down."
+        },
+        sections: {
+            home: "Welcome to my digital playground. Scroll down to discover my projects and skills.",
+            about: "This is where I tell my story. My background in design, development, and creative solutions.",
+            projects: "My project showcase. Click on any card to flip it and see more details.",
+            testimonials: "Feedback from clients and collaborators. Swipe or use arrows to see more.",
+            contact: "Want to connect? You can reach me through any of these platforms."
+        },
+        projects: {
+            "templates/project1.html": "My development work. Swipe through the gallery to see implementation details.",
+            "templates/project2.html": "UI/UX design projects. Notice how visual elements enhance user experience.",
+            "templates/project3.html": "Design thinking approach in action. Check out the process documentation.",
+            "templates/project4.html": "Video editing portfolio. Play the videos to see my editing style."
+        },
+        interactions: {
+            projectCardHover: [
+                "Interested in this project? Click to flip the card and see more details.",
+                "There's more to see here. Click to flip the card.",
+                "Want to know more about this project? Click to flip the card."
+            ],
+            projectCardFlip: [
+                "Now you can see the details. Click again to flip back.",
+                "Here's what's behind the curtain. Click again when you're done.",
+                "Project details revealed. Click again to return to the overview."
+            ],
+            testimonialNavigation: [
+                "Use the arrows to see more testimonials, or just swipe.",
+                "There are more reviews to explore. Try the navigation arrows.",
+                "Swipe left or right to see what others have said about my work."
+            ],
+            scrollDown: [
+                "Keep scrolling to discover more of my work.",
+                "There's more content below. Continue scrolling to explore.",
+                "Scroll down to continue your journey through my portfolio."
+            ]
+        },
+        idle: [
+            "Looking for something specific? Try clicking on a project card to see details.",
+            "Tip: Project cards can be flipped for more information.",
+            "Scroll down to explore different sections of my portfolio.",
+            "Need help navigating? The menu at the bottom has quick links to each section."
+        ],
+        fallback: "Interesting. Is there something specific you'd like to know about my work?"
+    };
+
+    let messageTimeout;
+    let idleTimeout;
+    let thinkingTimeout;
+    const IDLE_TIME = 30000;
+    const THINKING_TIME = 1500;
+
+    function showSpeechBubble(message, duration = 5000, state = 'talking') {
+        console.log(`Showing speech: "${message}" with state: ${state}`);
+        
+        // Force speech bubble to be visible with inline styles
+        avatarSpeech.style.opacity = "1";
+        avatarSpeech.style.transform = "scale(1)";
+        avatarSpeech.style.visibility = "visible";
+        avatarSpeech.style.display = "block";
+        
+        clearTimeout(messageTimeout);
+        clearTimeout(thinkingTimeout);
+        setAvatarState(state);
+        avatarSpeech.textContent = message;
+        avatarSpeech.classList.add('visible');
+        
+        console.log("Speech bubble visibility state:", {
+            hasVisibleClass: avatarSpeech.classList.contains('visible'),
+            opacity: window.getComputedStyle(avatarSpeech).opacity,
+            display: window.getComputedStyle(avatarSpeech).display
+        });
+        
+        messageTimeout = setTimeout(() => {
+            hideSpeechBubble();
+        }, duration);
+    }
+
+    function hideSpeechBubble() {
+        console.log("Hiding speech bubble"); // <-- ADD Log
+        avatarSpeech.classList.remove('visible');
+        setAvatarState('idle');
+        resetIdleTimer();
+    }
+
+    function getGreeting() {
+        const hour = new Date().getHours();
+        if (hour < 5) return messages.greetings.night;
+        if (hour < 12) return messages.greetings.morning;
+        if (hour < 18) return messages.greetings.afternoon;
+        return messages.greetings.evening;
+    }
+
+    function getRandomIdleMessage() {
+        return messages.idle[Math.floor(Math.random() * messages.idle.length)];
+    }
+
+    function triggerIdleSequence() {
+        // Alternate between thinking and different tips
+        if (idleTipIndex % 2 === 0) {
+            setAvatarState('thinking');
+            thinkingTimeout = setTimeout(() => {
+                // Cycle through idle messages
+                const idleMsg = messages.idle[idleTipIndex % messages.idle.length];
+                showSpeechBubble(idleMsg, 5000, 'talking');
+                idleTipIndex++;
+            }, THINKING_TIME);
+        } else {
+            setAvatarState('buffering'); // Use alternative thinking/loading state
+            thinkingTimeout = setTimeout(() => {
+                // Show a scroll hint instead
+                const scrollHint = getRandomMessage(messages.interactions.scrollDown);
+                showSpeechBubble(scrollHint, 5000, 'worried');
+                idleTipIndex++;
+            }, THINKING_TIME);
+        }
+    }
+
+    function resetIdleTimer() {
+        clearTimeout(idleTimeout);
+        clearTimeout(thinkingTimeout);
+        
+        // Only reset to idle if not currently talking
+        if (!avatarSpeech.classList.contains('visible')) {
+            setAvatarState('idle');
+        }
+        
+        idleTimeout = setTimeout(triggerIdleSequence, IDLE_TIME);
+    }
+
+    // --- Event Listeners & Observers ---
+
+    // Initial Greeting & Appearance
+    document.addEventListener('DOMContentLoaded', () => {
+        // Make everything visible
+        avatarContainer.style.opacity = "1";
+        avatarContainer.style.pointerEvents = "auto";
+        avatarSpeech.style.opacity = "1";
+        avatarSpeech.style.visibility = "visible"; 
+        avatarSpeech.style.display = "block";
+        
+        // Set initial state and show greeting
+        setAvatarState('idle');
+        
+        // Show greeting with a small delay
+        setTimeout(() => {
+            const greeting = getGreeting();
+            console.log("Showing greeting:", greeting);
+            avatarSpeech.textContent = greeting;
+            setAvatarState('happy'); // Start with happy
+            
+            // Reset after greeting and show scroll hint
+            setTimeout(() => {
+                setAvatarState('idle');
+                // Show scroll hint after greeting disappears
+                setTimeout(() => {
+                    const randomScrollHint = getRandomMessage(messages.interactions.scrollDown);
+                    showSpeechBubble(randomScrollHint, 4000, 'talking');
+                }, 2000);
+                resetIdleTimer();
+            }, 5000);
+        }, 1000);
+    });
+
+    // Section Intersection Observer - Enhanced with more descriptive messages
+    const sectionObserverOptions = { threshold: 0.4 }; // Increase threshold for better timing
+    const sectionObserverCallback = (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.id;
+                if (messages.sections[sectionId]) {
+                    // Choose appropriate avatar state based on section
+                    let stateToShow = 'talking';
+                    if (sectionId === 'contact') {
+                        stateToShow = 'mail';
+                    } else if (sectionId === 'testimonials') {
+                        stateToShow = 'love';
+                    } else if (sectionId === 'projects') {
+                        stateToShow = 'happy';
+                    } else if (sectionId === 'about') {
+                        stateToShow = 'talking';
+                    }
+                    showSpeechBubble(messages.sections[sectionId], 5000, stateToShow);
+                }
+            }
+        });
+    };
+    const sectionObserver = new IntersectionObserver(sectionObserverCallback, sectionObserverOptions);
+    document.querySelectorAll('section[id]').forEach(section => {
+        if (messages.sections[section.id]) {
+             sectionObserver.observe(section);
+        }
+    });
+
+    // Project Card Interaction - Enhanced with flip instructions
+    document.querySelectorAll('.project-card').forEach(card => {
+        // When user hovers over a card, suggest clicking to flip
+        card.addEventListener('mouseenter', () => {
+            if (!card.classList.contains('flipped')) { // Only if not already flipped
+                const randomHoverMsg = getRandomMessage(messages.interactions.projectCardHover);
+                showSpeechBubble(randomHoverMsg, 3000, 'happy');
+            }
+        });
+        
+        // When user clicks to flip, acknowledge the action
+        card.addEventListener('click', () => {
+            // Check if card is being flipped (assuming you have a 'flipped' class toggle on click)
+            setTimeout(() => {
+                if (card.classList.contains('flipped')) {
+                    const randomFlipMsg = getRandomMessage(messages.interactions.projectCardFlip);
+                    showSpeechBubble(randomFlipMsg, 3000, 'exclamation');
+                }
+            }, 100); // Small delay to ensure the class has been toggled
+        });
+    });
+
+    // Testimonial Navigation Helper
+    const testimonialsSection = document.querySelector('#testimonials');
+    if (testimonialsSection) {
+        const testimonialNav = testimonialsSection.querySelectorAll('.testimonial-nav');
+        if (testimonialNav.length) {
+            testimonialNav.forEach(nav => {
+                nav.addEventListener('click', () => {
+                    const randomNavMsg = getRandomMessage(messages.interactions.testimonialNavigation);
+                    showSpeechBubble(randomNavMsg, 3000, 'talking');
+                });
+            });
+        }
+    }
+    
+    // Helper function to get random message from array
+    function getRandomMessage(messageArray) {
+        return messageArray[Math.floor(Math.random() * messageArray.length)];
+    }
+
+    // Scroll depth detection to offer guidance
+    let lastScrollDepth = 0;
+    window.addEventListener('scroll', () => {
+        const scrollDepth = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        
+        // If user scrolls significantly (20%+) but then stops, offer guidance
+        if (scrollDepth >= 0.2 && Math.abs(scrollDepth - lastScrollDepth) > 0.05) {
+            lastScrollDepth = scrollDepth;
+            
+            // Clear existing timers to avoid message clash
+            clearTimeout(idleTimeout);
+            clearTimeout(thinkingTimeout);
+            
+            // Set new idle timer - if user stops scrolling, show hint
+            idleTimeout = setTimeout(() => {
+                const randomScrollHint = getRandomMessage(messages.interactions.scrollDown);
+                showSpeechBubble(randomScrollHint, 4000, 'talking');
+            }, 8000); // Longer delay when actively browsing
+        }
+    }, { passive: true });
+
+    // Reset Idle Timer on Activity - keep this as is
+    ['mousemove', 'click', 'keypress'].forEach(eventType => {
+        document.addEventListener(eventType, resetIdleTimer, { passive: true });
+    });
+
+    // Hide bubble on avatar click
+    avatarImageWrapper.addEventListener('click', () => {
+        // If speech bubble is visible, hide it
+        if (avatarSpeech.style.opacity === "1") {
+            hideSpeechBubble();
+        } 
+        // If speech bubble is hidden, show a random greeting
+        else {
+            const randomGreeting = getRandomMessage([
+                "Hello! Need some guidance?",
+                "How can I assist you with the portfolio?",
+                "Click on projects to see more details!",
+                "Need help finding something specific?"
+            ]);
+            showSpeechBubble(randomGreeting, 4000, 'happy');
+        }
+    });
+})();

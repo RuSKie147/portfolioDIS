@@ -269,6 +269,19 @@
         </div>
     </section>
 
+    <!-- Avatar Chatbot -->
+    <div id="avatar-container" class="fixed bottom-5 right-5 z-[1000] flex items-end space-x-2 opacity-0 transition-opacity duration-500">
+        <!-- Speech Bubble -->
+        <div id="avatar-speech" class="bg-black/70 dark:bg-white/10 backdrop-blur-sm text-white dark:text-cyan-300 border border-pink-500/50 dark:border-cyan-300/50 rounded-lg px-4 py-2.5 text-sm max-w-[180px] shadow-lg mb-2 origin-bottom-right">
+            <!-- Message content will go here -->
+        </div>
+        <!-- Avatar Image -->
+        <div id="avatar-image-wrapper" class="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-pink-500 dark:border-cyan-300 shadow-lg avatar-idle">
+            <!-- Use your actual idle avatar image -->
+            <img src="images/chatbot-calm.png" alt="Avatar" id="avatar-img" class="w-full h-full object-cover">
+        </div>
+    </div>
+
     <!-- Remove Tailwind color/bg/border classes -->
     <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0
                            backdrop-blur-md p-4 flex justify-center space-x-10

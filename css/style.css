@@ -1226,3 +1226,87 @@ html.dark .pagination-dot.active {
   border-color: #00e5e5;
   box-shadow: 0 0 32px 8px #00e5e599, 0 0 0 2px #00e5e555 inset;
 }
+
+/* --- Avatar Chatbot Styles --- */
+#avatar-container {
+    /* Force positioning properties */
+    position: fixed !important;
+    bottom: 1.25rem !important; /* Tailwind bottom-5 */
+    right: 1.25rem !important;  /* Tailwind right-5 */
+    left: auto !important;      /* Ensure left isn't interfering */
+    top: auto !important;       /* Ensure top isn't interfering */
+    z-index: 1000 !important;   /* Tailwind z-[1000] */
+
+    /* Set an explicit max-width and align from the right */
+    max-width: 240px !important;
+    width: auto !important;
+    height: auto !important;
+
+    /* Change flex direction to row-reverse to keep avatar at the right edge */
+    display: flex !important;
+    flex-direction: row-reverse !important; /* Avatar stays at right edge */
+    align-items: flex-end !important;
+    gap: 0.5rem !important;
+
+    /* Visible by default instead of opacity transitions */
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+#avatar-speech {
+    background-color: rgba(0,0,0,0.7) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    font-size: 14px !important;  
+    max-width: 180px !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    visibility: visible !important;
+    display: block !important;
+    margin-bottom: 4px !important;
+    
+    /* Make speech bubble shrink rather than push avatar */
+    flex: 0 1 auto !important; /* Don't grow, but allow shrinking if needed */
+    overflow-wrap: break-word !important; /* Break long words */
+    word-wrap: break-word !important;
+    hyphens: auto !important;
+}
+
+#avatar-image-wrapper {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    border: 2px solid #ff007f !important;
+    
+    /* Force exact dimensions */
+    flex: 0 0 48px !important; /* width exact 48px, don't grow or shrink */
+    min-width: 48px !important;
+    min-height: 48px !important;
+}
+
+/* For medium screens and up */
+@media (min-width: 768px) {
+    #avatar-image-wrapper {
+        width: 56px !important;
+        height: 56px !important;
+        flex: 0 0 56px !important; /* Update flex-basis to match width */
+        min-width: 56px !important;
+        min-height: 56px !important;
+    }
+}
+
+/* Dark theme adjustments */
+.theme-dark #avatar-image-wrapper,
+html.dark #avatar-image-wrapper {
+    border-color: #00e5e5 !important;
+}
+
+/* Ensure the image inside the wrapper maintains its size */
+#avatar-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
