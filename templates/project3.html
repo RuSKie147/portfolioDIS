@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Development Projects | Cyberpunk Portfolio</title>
-    
+    <title>Design Thinking Projects | Cyberpunk Portfolio</title> <!-- Changed Title -->
+
     <!-- Tailwind CSS -->
     <link href="../css/style.css" rel="stylesheet">
-    
-    <!-- Custom CSS -->
+
+    <!-- Custom CSS (Copied from project2.html) -->
     <style>
         /* Project-specific styles */
         .progress-bar {
@@ -21,19 +21,19 @@
             width: 0%;
             transition: width 0.05s ease-out;
         }
-        
+
         .project-section {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s cubic-bezier(0.6, 0, 0.4, 1),
                         transform 0.8s cubic-bezier(0.6, 0, 0.4, 1);
         }
-        
+
         .project-section.revealed {
             opacity: 1;
             transform: translateY(0);
         }
-        
+
         .data-stream {
             position: relative;
             border-left: 2px solid;
@@ -41,15 +41,15 @@
             margin-left: 1rem;
             transition: all 0.5s ease;
         }
-        
+
         .dark .data-stream {
             border-color: rgba(0, 229, 229, 0.3);
         }
-        
+
         .theme-light .data-stream {
             border-color: rgba(255, 0, 127, 0.3);
         }
-        
+
         .data-stream::before {
             content: '';
             position: absolute;
@@ -61,22 +61,22 @@
             background-color: #00e5e5;
             box-shadow: 0 0 15px 2px rgba(0, 229, 229, 0.6);
         }
-        
+
         .theme-light .data-stream::before {
             background-color: #ff007f;
             box-shadow: 0 0 15px 2px rgba(255, 0, 127, 0.6);
         }
-        
+
         .data-stream.revealed::before {
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
             0% { opacity: 0.6; transform: scale(0.8); }
             50% { opacity: 1; transform: scale(1.1); }
             100% { opacity: 0.6; transform: scale(0.8); }
         }
-        
+
         .tech-tag {
             display: inline-block;
             padding: 0.25rem 0.75rem;
@@ -88,76 +88,24 @@
             border: 1px solid rgba(0, 229, 229, 0.3);
             transition: all 0.3s ease;
         }
-        
+
         .theme-light .tech-tag {
             border-color: rgba(255, 0, 127, 0.3);
             background-color: rgba(255, 255, 255, 0.3);
             color: #333;
         }
-        
+
         .tech-tag:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 229, 229, 0.3);
         }
-        
+
         .theme-light .tech-tag:hover {
             box-shadow: 0 4px 12px rgba(255, 0, 127, 0.3);
             background-color: rgba(255, 255, 255, 0.5);
         }
-        
-        .project-card {
-            border: 1px solid rgba(0, 229, 229, 0.3);
-            border-radius: 0.5rem;
-            text-align: center;
-            padding: 0.5rem;
-            backdrop-filter: blur(4px);
-            background-color: rgba(17, 24, 39, 0.5);
-            transition: all 0.3s ease-out;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 0.25rem;
-            width: 50%;
-            height: 50%;
-            overflow: hidden;
-        }
-        
-        .theme-light .project-card {
-            border: 1px solid rgba(255, 0, 127, 0.3);
-            background-color: rgba(255, 255, 255, 0.5);
-            color: #333;
-        }
-        
-        .project-card-tilt {
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
-            display: flex;
-        }
-        
-        .project-card-tilt:hover {
-            transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) scale3d(1.03, 1.03, 1.03);
-        }
-        
-        .project-card img {
-            max-width: 40%;
-            height: 70px;
-            object-fit: contain;
-            margin-bottom: 0.25rem;
-        }
-        
-        .project-card svg {
-            width: 30px;
-            height: 30px;
-            margin-bottom: 0.25rem;
-        }
-        
-        .project-card span {
-            font-size: 0.7rem;
-            line-height: 1.1;
-            margin-top: 0.1rem;
-        }
-        
+
+        /* pp-card styles (copied from project2.html) */
         .pp-cards-row {
             display: flex;
             flex-direction: row;
@@ -175,12 +123,28 @@
             align-items: stretch;
             height: 100%;
             max-width: 320px;
+            perspective: 900px;
         }
         .pp-card {
             width: 100%;
             height: 100%;
             min-height: 220px;
             box-sizing: border-box;
+            border: 1px solid rgba(0, 229, 229, 0.3);
+            border-radius: 0.5rem;
+            text-align: center;
+            padding: 0.5rem;
+            backdrop-filter: blur(4px);
+            background-color: rgba(17, 24, 39, 0.5);
+            transition: all 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 0.25rem;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+            perspective: 1200px;
         }
         .pp-card img {
             width: 100%;
@@ -188,8 +152,8 @@
             max-height: 100%;
             object-fit: cover;
             display: block;
-            margin: 0 0 0 0;
-            border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
+            margin: 0;
+            border-radius: 0.75rem;
             box-shadow: 0 2px 12px rgba(0,229,229,0.10);
             background: #111827;
         }
@@ -207,7 +171,9 @@
         }
         .pp-card span {
             display: block;
-            margin-top: 0;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            line-height: 1.1;
         }
         @media (max-width: 1023px) {
             .pp-cards-row {
@@ -218,7 +184,44 @@
                 max-width: 100%;
             }
         }
-        
+
+        /* ppt-card styles (copied from project2.html) */
+        .ppt-card {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 229, 229, 0.3);
+            background-color: rgba(17, 24, 39, 0.5);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16);
+        }
+        .theme-light .ppt-card {
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        .ppt-card iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+        .ppt-card + a {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Back button styles (copied from project2.html) */
         .back-button {
             position: fixed;
             bottom: 2rem;
@@ -231,48 +234,43 @@
             font-weight: 500;
             transition: all 0.3s ease;
             border: 1px solid transparent;
+            text-decoration: none;
         }
-        
         .dark .back-button {
             border-color: rgba(0, 229, 229, 0.6);
             box-shadow: 0 0 15px rgba(0, 229, 229, 0.2);
         }
-        
         .theme-light .back-button {
             border-color: rgba(255, 0, 127, 0.6);
             box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
             background-color: rgba(255, 255, 255, 0.7);
             color: #ff007f;
         }
-        
         .back-button:hover {
             transform: translateY(-3px);
         }
-        
         .dark .back-button:hover {
             box-shadow: 0 0 20px rgba(0, 229, 229, 0.4);
         }
-        
         .theme-light .back-button:hover {
             box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
             background-color: rgba(255, 255, 255, 0.9);
             color: #00c0ff;
         }
-        
-        /* Circuit background */
+
+        /* Circuit background styles (copied from project2.html) */
         .circuit-node {
             position: absolute;
             width: 8px;
             height: 8px;
             border-radius: 50%;
         }
-        
         .circuit-line {
             position: absolute;
             height: 2px;
         }
-        
-        /* Line indicator for scroll progress */
+
+        /* Scroll indicator styles (copied from project2.html) */
         .scroll-indicator {
             position: fixed;
             top: 50%;
@@ -283,11 +281,9 @@
             background-color: rgba(255, 255, 255, 0.1);
             z-index: 100;
         }
-        
         .theme-light .scroll-indicator {
             background-color: rgba(0, 0, 0, 0.1);
         }
-        
         .scroll-indicator-progress {
             position: absolute;
             bottom: 0;
@@ -296,11 +292,9 @@
             height: 0%;
             transition: height 0.1s ease-out;
         }
-        
         .theme-light .scroll-indicator-progress {
             background: linear-gradient(to top, #ff007f, #0077FF);
         }
-        
         .scroll-indicator-dot {
             position: absolute;
             width: 8px;
@@ -311,26 +305,21 @@
             transform: translateY(0%);
             transition: transform 0.1s ease-out;
         }
-        
         .dark .scroll-indicator-dot {
             box-shadow: 0 0 10px 3px rgba(0, 229, 229, 0.5);
         }
-        
         .theme-light .scroll-indicator-dot {
             background-color: #ff007f;
             box-shadow: 0 0 10px 3px rgba(255, 0, 127, 0.5);
         }
-        
-        /* Update heading colors for light theme */
+
+        /* Heading/Text styles (copied from project2.html) */
         .theme-light h2, .theme-light h3 {
-            color: #1a1c2c !important; /* Dark navy headings */
+            color: #1a1c2c !important;
         }
-
         .theme-light h2 span, .theme-light h3 span {
-            color: #1a1c2c !important; /* Change number color to pink for light theme */
+            color: #ff007f !important;
         }
-
-        /* Update paragraph text color */
         .theme-light p {
             color: #555 !important;
         }
@@ -339,127 +328,109 @@
 <body class="theme-light font-sans transition-colors duration-300">
     <!-- Progress bar -->
     <div class="progress-bar"></div>
-    
+
     <!-- Scroll indicator -->
     <div class="scroll-indicator">
         <div class="scroll-indicator-progress"></div>
         <div class="scroll-indicator-dot"></div>
     </div>
-    
+
     <!-- Theme toggle -->
     <button id="theme-toggle" class="fixed top-8 right-8 z-50 transition focus:outline-none" style="background: transparent; border: none; padding: 0; box-shadow: none; top:1.5rem; right: 2rem; left: auto;"
             aria-label="Toggle theme">
-        <!-- Sun Icon (light mode) -->
-        <svg id="icon-sun" class="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="width: 1.75rem; height: 1.75rem; display:inline;">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3" />
-            <line x1="12" y1="21" x2="12" y2="23" />
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-            <line x1="1" y1="12" x2="3" y2="12" />
-            <line x1="21" y1="12" x2="23" y2="12" />
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        <!-- Sun Icon -->
+        <svg id="icon-sun" class="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400 dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="width: 1.75rem; height: 1.75rem;">
+             <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
         </svg>
-        <!-- Moon Icon (dark mode) -->
-        <svg id="icon-moon" class="w-6 h-6 sm:w-7 sm:h-7 text-cyan-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="width: 1.75rem; height: 1.75rem; display:none;">
+        <!-- Moon Icon -->
+        <svg id="icon-moon" class="w-6 h-6 sm:w-7 sm:h-7 text-cyan-300 hidden dark:inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="width: 1.75rem; height: 1.75rem;">
             <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
         </svg>
     </button>
-    
+
     <!-- Back button -->
     <a href="../index.html" class="back-button">
         ← Back to Main Console
     </a>
-    
+
     <!-- Background Overlay for dynamic circuit pattern -->
     <div id="background-overlay" class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden opacity-70"></div>
-    
+
     <!-- Main content container -->
     <main class="min-h-screen container mx-auto px-4 py-20 max-w-4xl">
-        <!-- Angry Birds Clone Project -->
+
+        <!-- Project 1: iPD-CP Strategisation -->
         <section class="project-section mb-24">
             <div class="data-stream mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3"><span class="text-cyan-400 dark:text-cyan-300">01.</span> Angry Birds Clone</h2>
-                <p class="text-base md:text-lg text-gray-400 mb-3">A Java-based clone of the classic game using LibGDX and Box2D.</p>
+                <h2 class="text-3xl md:text-4xl font-bold mb-3"><span class="text-cyan-400 dark:text-cyan-300">01.</span> iPD-CP Strategisation</h2>
+                <p class="text-base md:text-lg text-gray-400 mb-3">Applied design thinking methodologies to understand stakeholder challenges within the iPD-CP framework and developed strategic solutions to address identified pain points.</p>
                 <div class="flex flex-wrap">
-                    <span class="tech-tag">Java</span>
-                    <span class="tech-tag">LibGDX</span>
-                    <span class="tech-tag">Box2D</span>
-                    <span class="tech-tag">IntelliJ</span>
-                    <span class="tech-tag">Git</span>
+                    <span class="tech-tag">Design Thinking</span>
+                    <span class="tech-tag">Stakeholder Analysis</span>
+                    <span class="tech-tag">Problem Solving</span>
+                    <span class="tech-tag">Strategy</span>
+                    <span class="tech-tag">Canva</span>
                 </div>
             </div>
-            <div class="pp-cards-row">
-                <!-- Image Card -->
-                <div class="pp-card-tilt w-full md:w-1/3">
-                    <div class="pp-card">
-                        <img src="https://placehold.co/300x300/050508/00e5e5?text=Gameplay" alt="Angry Birds Clone Screenshot" class="rounded-lg">
-                        <span>Gameplay</span>
-                    </div>
-                </div>
-                <!-- QR Card -->
-                <div class="pp-card-tilt w-full md:w-1/3">
-                    <div class="pp-card">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/arrpt/angrybird-cse201&bgcolor=111827&color=00e5e5&qzone=1" alt="QR Code for Angry Birds Clone GitHub">
-                        <span>GitHub QR</span>
-                    </div>
-                </div>
-                <!-- GitHub Card -->
-                <div class="pp-card-tilt w-full md:w-1/3">
-                    <a href="https://github.com/arrpt/angrybird-cse201" target="_blank" class="pp-card no-underline">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="text-cyan-300 dark:text-cyan-300">
-                            <path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.7 1.6.2 2.8.1 3.2.7.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 0z"/>
-                        </svg>
-                        <span>View on GitHub</span>
-                    </a>
-                </div>
+            <!-- Presentation Card -->
+            <div class="ppt-card">
+                <iframe loading="lazy"
+                    src="https://www.canva.com/design/DAGUaFXtPfE/bv31Y3PFf6f7fPMAl7TzTQ/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+                </iframe>
             </div>
+            <a href="https://www.canva.com/design/DAGUaFXtPfE/bv31Y3PFf6f7fPMAl7TzTQ/view?utm_content=DAGUaFXtPfE&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener" class="text-cyan-400 underline">View Midsem Project on Canva</a>
         </section>
 
-        <!-- RISC-V Assembler and Simulator -->
+        <!-- Project 2: Old Boys' Hostel Lift Dilemma -->
         <section class="project-section mb-24">
             <div class="data-stream mb-8">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3"><span class="text-cyan-400 dark:text-cyan-300">02.</span> RISC-V Assembler & Simulator</h2>
-                <p class="text-base md:text-lg text-gray-400 mb-3">A Python-based toolset for assembling and simulating RISC-V code.</p>
+                <h2 class="text-3xl md:text-4xl font-bold mb-3"><span class="text-cyan-400 dark:text-cyan-300">02.</span> Old Boys' Hostel Lift Dilemma</h2>
+                <p class="text-base md:text-lg text-gray-400 mb-3">Utilized a design thinking approach to analyze the issues surrounding the Old Boys' Hostel lift, exploring user experiences and proposing potential solutions to improve functionality and satisfaction.</p>
                 <div class="flex flex-wrap">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">VS Code</span>
-                    <span class="tech-tag">Git</span>
+                    <span class="tech-tag">Design Thinking</span>
+                    <span class="tech-tag">User Research</span>
+                    <span class="tech-tag">Problem Definition</span>
+                    <span class="tech-tag">Solution Ideation</span>
+                    <span class="tech-tag">Canva</span>
                 </div>
             </div>
-            <div class="pp-cards-row">
-                <!-- Image Card -->
-                <div class="pp-card-tilt w-full md:w-1/3">
-                    <div class="pp-card">
-                        <img src="https://placehold.co/300x300/050508/00e5e5?text=Simulator+UI" alt="RISC-V Assembler Screenshot" class="rounded-lg">
-                        <span>Simulator UI</span>
-                    </div>
-                </div>
-                <!-- QR Card -->
-                <div class="pp-card-tilt w-full md:w-1/3">
-                    <div class="pp-card">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/shivaaank/RISCV-assembler-and-simulator&bgcolor=111827&color=00e5e5&qzone=1" alt="QR Code for RISC-V Assembler GitHub">
-                        <span>GitHub QR</span>
-                    </div>
-                </div>
-                <!-- GitHub Card -->
-                <div class="pp-card-tilt w-full md:w-1/3">
-                    <a href="https://github.com/shivaaank/RISCV-assembler-and-simulator" target="_blank" class="pp-card no-underline">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="text-cyan-300 dark:text-cyan-300">
-                            <path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.7 1.6.2 2.8.1 3.2.7.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 0z"/>
-                        </svg>
-                        <span>View on GitHub</span>
-                    </a>
-                </div>
+            <!-- Presentation Card -->
+            <div class="ppt-card">
+                <iframe loading="lazy"
+                    src="https://www.canva.com/design/DAGRsrcp2sI/zRPTyR3eJetKjOwWItXV6Q/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+                </iframe>
             </div>
+            <a href="https://www.canva.com/design/DAGRsrcp2sI/zRPTyR3eJetKjOwWItXV6Q/view?utm_content=DAGRsrcp2sI&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener" class="text-cyan-400 underline">View DPP IndiA2 Project on Canva</a>
         </section>
+
+        <!-- Project 3: Scams Around Us - A Wicked Problem -->
+        <section class="project-section mb-24">
+            <div class="data-stream mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3"><span class="text-cyan-400 dark:text-cyan-300">03.</span> Scams Around Us - A Wicked Problem</h2>
+                <p class="text-base md:text-lg text-gray-400 mb-3">Tackled the complex "wicked problem" of scams using design thinking principles. This project involved in-depth analysis of the scam ecosystem and exploration of potential interventions.</p>
+                <div class="flex flex-wrap">
+                    <span class="tech-tag">Design Thinking</span>
+                    <span class="tech-tag">Wicked Problems</span>
+                    <span class="tech-tag">Systems Thinking</span>
+                    <span class="tech-tag">Research</span>
+                    <span class="tech-tag">Canva</span>
+                </div>
+            </div>
+            <!-- Presentation Card -->
+            <div class="ppt-card">
+                <iframe loading="lazy"
+                    src="https://www.canva.com/design/DAGWYHlIWYw/cVTsh5W714RscuCWNtpgbw/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+                </iframe>
+            </div>
+            <a href="https://www.canva.com/design/DAGWYHlIWYw/cVTsh5W714RscuCWNtpgbw/view?utm_content=DAGWYHlIWYw&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener" class="text-cyan-400 underline">View End Project on Canva</a>
+        </section>
+
     </main>
 
     <!-- JavaScript dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    
-    <!-- Custom JavaScript -->
+
+    <!-- Custom JavaScript (copied from project2.html) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Theme toggle functionality
@@ -469,7 +440,6 @@
             const iconMoon = document.getElementById('icon-moon');
             const backgroundOverlay = document.getElementById('background-overlay');
 
-            // Function to apply the theme
             const applyTheme = (theme) => {
                 if (theme === 'dark') {
                     htmlElement.classList.add('dark');
@@ -486,100 +456,66 @@
                 }
             };
 
-            // Check localStorage for saved theme preference
             const savedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            // Determine initial theme
             let currentTheme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
             applyTheme(currentTheme);
 
-            // --- START: Copied Circuit Pattern Logic from script.js ---
             const createCircuitPattern = () => {
                 if (!backgroundOverlay) return;
-
-                // Clear existing circuit nodes and lines
-                backgroundOverlay.innerHTML = ''; // Clear previous pattern
-
-                // Get window dimensions
+                backgroundOverlay.innerHTML = '';
                 const width = window.innerWidth;
                 const height = window.innerHeight;
-
-                // Determine number of nodes based on screen size
-                const nodeCount = Math.floor((width * height) / 20000); // Adjust density as needed
-
-                // Create nodes
+                const nodeCount = Math.floor((width * height) / 20000);
                 const nodes = [];
                 for (let i = 0; i < nodeCount; i++) {
                     const node = document.createElement('div');
-                    node.classList.add('circuit-node'); // Use class from style.css
-
-                    // Position nodes randomly
+                    node.classList.add('circuit-node');
                     const x = Math.random() * width;
                     const y = Math.random() * height;
                     node.style.left = `${x}px`;
                     node.style.top = `${y}px`;
-
-                    // Set color based on theme
                     const isDark = htmlElement.classList.contains('dark');
-                    const nodeColor = isDark ? '#00e5e5' : '#ff007f'; // Cyan for dark, Pink for light
+                    const nodeColor = isDark ? '#00e5e5' : '#ff007f';
                     node.style.backgroundColor = nodeColor;
-                    node.style.boxShadow = `0 0 8px ${nodeColor}`; // Add glow
-
+                    node.style.boxShadow = `0 0 8px ${nodeColor}`;
                     backgroundOverlay.appendChild(node);
                     nodes.push({ element: node, x, y });
                 }
-
-                // Connect some nodes with lines
                 for (let i = 0; i < nodes.length; i++) {
-                    // Connect to 1-3 nearby nodes
                     for (let j = 0; j < Math.floor(Math.random() * 3) + 1; j++) {
                         let nearbyIndex = Math.floor(Math.random() * nodes.length);
-                        if (nearbyIndex === i) continue; // Skip self
-
+                        if (nearbyIndex === i) continue;
                         const node1 = nodes[i];
                         const node2 = nodes[nearbyIndex];
-
                         const dx = node2.x - node1.x;
                         const dy = node2.y - node1.y;
                         const distance = Math.sqrt(dx * dx + dy * dy);
-
-                        // Only connect if reasonably close (adjust distance threshold if needed)
                         if (distance < 300) {
                             const line = document.createElement('div');
-                            line.classList.add('circuit-line'); // Use class from style.css
-
+                            line.classList.add('circuit-line');
                             line.style.left = `${node1.x}px`;
                             line.style.top = `${node1.y}px`;
                             line.style.width = `${distance}px`;
-
                             const angle = Math.atan2(dy, dx) * (180 / Math.PI);
                             line.style.transform = `rotate(${angle}deg)`;
-
-                            // Set color based on theme with varying opacity
                             const isDark = htmlElement.classList.contains('dark');
                             const lineColor = isDark ?
-                                `rgba(0, 229, 229, ${0.1 + Math.random() * 0.2})` : // Faint cyan
-                                `rgba(255, 0, 127, ${0.1 + Math.random() * 0.2})`; // Faint pink
+                                `rgba(0, 229, 229, ${0.1 + Math.random() * 0.2})` :
+                                `rgba(255, 0, 127, ${0.1 + Math.random() * 0.2})`;
                             line.style.backgroundColor = lineColor;
-
                             backgroundOverlay.appendChild(line);
                         }
                     }
                 }
             };
-            // --- END: Copied Circuit Pattern Logic ---
-
-            // Create initial circuit pattern
             createCircuitPattern();
 
-            // Add event listener to the toggle button
             if (themeToggle) {
                 themeToggle.addEventListener('click', () => {
                     currentTheme = htmlElement.classList.contains('dark') ? 'light' : 'dark';
                     applyTheme(currentTheme);
                     localStorage.setItem('theme', currentTheme);
-                    // Refresh circuit pattern on theme change (with slight delay)
                     setTimeout(createCircuitPattern, 50);
                 });
             }
@@ -587,7 +523,6 @@
             // Scroll-triggered animations
             const projectSections = document.querySelectorAll('.project-section');
             const dataStreams = document.querySelectorAll('.data-stream');
-            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -596,31 +531,27 @@
                     }
                 });
             }, { threshold: 0.1 });
-            
             projectSections.forEach(section => {
                 observer.observe(section);
             });
-            
             dataStreams.forEach(stream => {
                 observer.observe(stream);
             });
-            
+
             // Scroll progress bar and indicator
             const progressBar = document.querySelector('.progress-bar');
             const scrollIndicatorProgress = document.querySelector('.scroll-indicator-progress');
             const scrollIndicatorDot = document.querySelector('.scroll-indicator-dot');
-            
             window.addEventListener('scroll', () => {
                 const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
                 const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
                 const clientHeight = document.documentElement.clientHeight || window.innerHeight;
                 const scrollPercentage = (scrollHeight - clientHeight > 0) ? (scrollTop / (scrollHeight - clientHeight)) * 100 : 0;
-                
                 progressBar.style.width = scrollPercentage + '%';
-                scrollIndicatorProgress.style.height = scrollPercentage + '%';
-                scrollIndicatorDot.style.transform = `translateY(-${Math.min(scrollPercentage, 100)}%)`;
+                if (scrollIndicatorProgress) scrollIndicatorProgress.style.height = scrollPercentage + '%';
+                if (scrollIndicatorDot) scrollIndicatorDot.style.transform = `translateY(-${Math.min(scrollPercentage, 100)}%)`;
             });
-            
+
             // Recreate circuit pattern on resize (debounced)
             window.addEventListener('resize', () => {
                 clearTimeout(window.resizeTimeout);
