@@ -1,11 +1,11 @@
 # Raj's Digital Portfolio
 
-A cyberpunk-inspired interactive portfolio showcasing my work in Visual Design, Development, Video Editing, and Design Thinking.
+An interactive portfolio showcasing my work in Visual Design, Development, Video Editing, and Design Thinking.
 
 ## 🚀 Features
 
 - **Responsive Design:** Optimized for desktop, tablet, and mobile devices
-- **Dark/Light Mode:** Toggle between cyberpunk-themed dark and light modes
+- **Dark/Light Mode:** Toggle between dark and light modes
 - **Interactive Elements:**
   - Animated project cards with 3D tilt effects
   - Interactive chatbot avatar with contextual guidance
