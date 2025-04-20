@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Projects | Cyberpunk Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        /* Project-specific styles */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00e5e5, #ff40ff);
+            z-index: 1000;
+            width: 0%;
+            transition: width 0.05s ease-out;
+        }
+        
+        .project-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.6, 0, 0.4, 1),
+                        transform 0.8s cubic-bezier(0.6, 0, 0.4, 1);
+        }
+        
+        .project-section.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .data-stream {
+            position: relative;
+            border-left: 2px solid;
+            padding-left: 2rem;
+            margin-left: 1rem;
+            transition: all 0.5s ease;
+        }
+        
+        .dark .data-stream {
+            border-color: rgba(0, 229, 229, 0.3);
+        }
+        
+        .light .data-stream {
+            border-color: rgba(255, 0, 127, 0.3);
+        }
+        
+        .data-stream::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background-color: #00e5e5;
+            box-shadow: 0 0 15px 2px rgba(0, 229, 229, 0.6);
+        }
+        
+        .light .data-stream::before {
+            background-color: #ff007f;
+            box-shadow: 0 0 15px 2px rgba(255, 0, 127, 0.6);
+        }
+        
+        .data-stream.revealed::before {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.6; transform: scale(0.8); }
+        }
+        
+        .tech-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 229, 229, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .light .tech-tag {
+            border-color: rgba(255, 0, 127, 0.3);
+        }
+        
+        .tech-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 229, 229, 0.3);
+        }
+        
+        .light .tech-tag:hover {
+            box-shadow: 0 4px 12px rgba(255, 0, 127, 0.3);
+        }
+        
+        .project-card {
+            border: 1px solid rgba(0, 229, 229, 0.3);
+            border-radius: 0.5rem;
+            text-align: center;
+            padding: 0.5rem;
+            backdrop-filter: blur(4px);
+            background-color: rgba(17, 24, 39, 0.5);
+            transition: all 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 0.25rem;
+            width: 50%;
+            height: 50%;
+            overflow: hidden;
+        }
+        
+        .light .project-card {
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .project-card-tilt {
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            display: flex;
+        }
+        
+        .project-card-tilt:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) scale3d(1.03, 1.03, 1.03);
+        }
+        
+        .project-card img {
+            max-width: 40%;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 0.25rem;
+        }
+        
+        .project-card svg {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 0.25rem;
+        }
+        
+        .project-card span {
+            font-size: 0.7rem;
+            line-height: 1.1;
+            margin-top: 0.1rem;
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .dark .back-button {
+            border-color: rgba(0, 229, 229, 0.6);
+            box-shadow: 0 0 15px rgba(0, 229, 229, 0.2);
+        }
+        
+        .light .back-button {
+            border-color: rgba(255, 0, 127, 0.6);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+        }
+        
+        .dark .back-button:hover {
+            box-shadow: 0 0 20px rgba(0, 229, 229, 0.4);
+        }
+        
+        .light .back-button:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+        }
+        
+        /* Circuit background */
+        .circuit-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.07;
+            pointer-events: none;
+        }
+        
+        /* Line indicator for scroll progress */
+        .scroll-indicator {
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 60vh;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+        
+        .scroll-indicator-progress {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(to top, #00e5e5, #ff40ff);
+            height: 0%;
+            transition: height 0.1s ease-out;
+        }
+        
+        .light .scroll-indicator-progress {
+            background: linear-gradient(to top, #ff007f, #0077FF);
+        }
+        
+        .scroll-indicator-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #fff;
+            left: -3px;
+            transform: translateY(0%);
+            transition: transform 0.1s ease-out;
+        }
+        
+        .dark .scroll-indicator-dot {
+            box-shadow: 0 0 10px 3px rgba(0, 229, 229, 0.5);
+        }
+        
+        .light .scroll-indicator-dot {
+            box-shadow: 0 0 10px 3px rgba(255, 0, 127, 0.5);
+        }
+
+        .pp-cards-row {
+            display: flex;
+            flex-direction: row;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: stretch;
+            margin-top: 4rem;
+            margin-bottom: 8rem;
+        }
+        .pp-card-tilt {
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            height: 100%;
+            max-width: 320px;
+        }
+        .pp-card {
+            width: 100%;
+            height: 100%;
+            min-height: 220px;
+            box-sizing: border-box;
+        }
+        .pp-card img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: cover;
+            display: block;
+            margin: 0 0 0 0;
+            border-radius: 0.75rem 0.75rem 0.75rem 0.75rem;
+            box-shadow: 0 2px 12px rgba(0,229,229,0.10);
+            background: #111827;
+        }
+        .pp-card span {
+            display: block;
+            margin-top: 0;
+        }
+        @media (max-width: 1023px) {
+            .pp-cards-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .pp-card-tilt {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 theme-dark">
+    <!-- Progress bar -->
+    <div class="progress-bar"></div>
+    
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-indicator-progress"></div>
+        <div class="scroll-indicator-dot"></div>
+    </div>
+    
+    <!-- Theme toggle -->
+    <button id="theme-toggle" class="fixed top-8 right-8 z-50 transition focus:outline-none" style="background: transparent; border: none; padding: 0; box-shadow: none; top:1.5rem; right: 2rem; left: auto;"
+            aria-label="Toggle theme">
+        <!-- Sun Icon (light mode) -->
+        <svg id="icon-sun" class="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="width: 1.75rem; height: 1.75rem; display:inline;">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+        <!-- Moon Icon (dark mode) -->
+        <svg id="icon-moon" class="w-6 h-6 sm:w-7 sm:h-7 text-cyan-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="width: 1.75rem; height: 1.75rem; display:none;">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
+        </svg>
+    </button>
+    
+    <!-- Back button -->
+    <a href="../index.html" class="back-button">
+        ← Back to Main Console
+    </a>
+    
+    <!-- Circuit background -->
+    <div class="circuit-bg" id="circuit-bg"></div>
+    
+    <!-- Main content container -->
+    <main class="min-h-screen container mx-auto px-4 py-20 max-w-4xl">
+        <!-- Angry Birds Clone Project -->
+        <section class="project-section mb-24">
+            <div class="data-stream mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3"><span class="text-cyan-400 dark:text-cyan-300">01.</span> Angry Birds Clone</h2>
+                <p class="text-base md:text-lg text-gray-400 mb-3">A Java-based clone of the classic game using LibGDX and Box2D.</p>
+                <div class="flex flex-wrap">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">LibGDX</span>
+                    <span class="tech-tag">Box2D</span>
+                    <span class="tech-tag">IntelliJ</span>
+                    <span class="tech-tag">Git</span>
+                </div>
+            </div>
+            <div class="pp-cards-row">
+                <!-- Image Card -->
+                <div class="pp-card-tilt w-full md:w-1/3">
+                    <div class="pp-card">
+                        <img src="https://placehold.co/300x300/050508/00e5e5?text=Gameplay" alt="Angry Birds Clone Screenshot" class="rounded-lg">
+                        <span>Gameplay</span>
+                    </div>
+                </div>
+                <!-- QR Card -->
+                <div class="pp-card-tilt w-full md:w-1/3">
+                    <div class="pp-card">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/arrpt/angrybird-cse201&bgcolor=111827&color=00e5e5&qzone=1" alt="QR Code for Angry Birds Clone GitHub">
+                        <span>GitHub QR</span>
+                    </div>
+                </div>
+                <!-- GitHub Card -->
+                <div class="pp-card-tilt w-full md:w-1/3">
+                    <a href="https://github.com/arrpt/angrybird-cse201" target="_blank" class="pp-card no-underline">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="text-cyan-300 dark:text-cyan-300">
+                            <path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.7 1.6.2 2.8.1 3.2.7.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 0z"/>
+                        </svg>
+                        <span>View on GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- RISC-V Assembler and Simulator -->
+        <section class="project-section mb-24">
+            <div class="data-stream mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3"><span class="text-cyan-400 dark:text-cyan-300">02.</span> RISC-V Assembler & Simulator</h2>
+                <p class="text-base md:text-lg text-gray-400 mb-3">A Python-based toolset for assembling and simulating RISC-V code.</p>
+                <div class="flex flex-wrap">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">VS Code</span>
+                    <span class="tech-tag">Git</span>
+                </div>
+            </div>
+            <div class="pp-cards-row">
+                <!-- Image Card -->
+                <div class="pp-card-tilt w-full md:w-1/3">
+                    <div class="pp-card">
+                        <img src="https://placehold.co/300x300/050508/00e5e5?text=Simulator+UI" alt="RISC-V Assembler Screenshot" class="rounded-lg">
+                        <span>Simulator UI</span>
+                    </div>
+                </div>
+                <!-- QR Card -->
+                <div class="pp-card-tilt w-full md:w-1/3">
+                    <div class="pp-card">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/shivaaank/RISCV-assembler-and-simulator&bgcolor=111827&color=00e5e5&qzone=1" alt="QR Code for RISC-V Assembler GitHub">
+                        <span>GitHub QR</span>
+                    </div>
+                </div>
+                <!-- GitHub Card -->
+                <div class="pp-card-tilt w-full md:w-1/3">
+                    <a href="https://github.com/shivaaank/RISCV-assembler-and-simulator" target="_blank" class="pp-card no-underline">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="text-cyan-300 dark:text-cyan-300">
+                            <path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.7 1.6.2 2.8.1 3.2.7.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 0z"/>
+                        </svg>
+                        <span>View on GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement;
+            const iconSun = document.getElementById('icon-sun');
+            const iconMoon = document.getElementById('icon-moon');
+            
+            // Function to apply the theme
+            const applyTheme = (theme) => {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    document.body.classList.add('theme-dark');
+                    document.body.classList.remove('theme-light');
+                    if (iconSun) iconSun.style.display = 'none';
+                    if (iconMoon) iconMoon.style.display = 'inline';
+                } else {
+                    htmlElement.classList.remove('dark');
+                    document.body.classList.add('theme-light');
+                    document.body.classList.remove('theme-dark');
+                    if (iconSun) iconSun.style.display = 'inline';
+                    if (iconMoon) iconMoon.style.display = 'none';
+                }
+            };
+            
+            // Check localStorage for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Determine initial theme
+            let currentTheme = savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light');
+            applyTheme(currentTheme);
+            
+            // Add event listener to the toggle button
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    currentTheme = htmlElement.classList.contains('dark') ? 'light' : 'dark';
+                    applyTheme(currentTheme);
+                    localStorage.setItem('theme', currentTheme);
+                    createCircuitPattern(); // Refresh circuit pattern on theme change
+                });
+            }
+            
+            // Scroll-triggered animations
+            const projectSections = document.querySelectorAll('.project-section');
+            const dataStreams = document.querySelectorAll('.data-stream');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            projectSections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            dataStreams.forEach(stream => {
+                observer.observe(stream);
+            });
+            
+            // Scroll progress bar and indicator
+            const progressBar = document.querySelector('.progress-bar');
+            const scrollIndicatorProgress = document.querySelector('.scroll-indicator-progress');
+            const scrollIndicatorDot = document.querySelector('.scroll-indicator-dot');
+            
+            window.addEventListener('scroll', () => {
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+                const scrollPercentage = (scrollHeight - clientHeight > 0) ? (scrollTop / (scrollHeight - clientHeight)) * 100 : 0;
+                
+                progressBar.style.width = scrollPercentage + '%';
+                scrollIndicatorProgress.style.height = scrollPercentage + '%';
+                scrollIndicatorDot.style.transform = `translateY(-${Math.min(scrollPercentage, 100)}%)`;
+            });
+            
+            // Circuit background pattern
+            const circuitBg = document.getElementById('circuit-bg');
+            
+            function createCircuitPattern() {
+                if (!circuitBg) return;
+                
+                circuitBg.innerHTML = '';
+                
+                const isDark = htmlElement.classList.contains('dark');
+                circuitBg.style.backgroundImage = `radial-gradient(${isDark ? 'rgba(0, 229, 229, 0.1)' : 'rgba(255, 0, 127, 0.1)'} 1px, transparent 1px)`;
+                circuitBg.style.backgroundSize = `20px 20px`;
+            }
+            
+            createCircuitPattern();
+            
+            window.addEventListener('resize', () => {
+                clearTimeout(window.resizeTimeout);
+                window.resizeTimeout = setTimeout(createCircuitPattern, 200);
+            });
+        });
+    </script>
+</body>
+</html>

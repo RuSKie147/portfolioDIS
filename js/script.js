@@ -352,8 +352,8 @@ document.querySelectorAll('.project-card-link').forEach(link => {
 });
 
 // --- Improved Interactive 3D Tilt for Project Cards (Natural, Subtle, Shadow Follows) ---
-document.querySelectorAll('.project-card-tilt').forEach(wrapper => {
-    const card = wrapper.querySelector('.project-card');
+document.querySelectorAll('.project-card-tilt, .pp-card-tilt').forEach(wrapper => {
+    const card = wrapper.querySelector('.project-card, .pp-card');
     let mouseX = 0, mouseY = 0;
     let targetX = 0, targetY = 0;
     let animating = false;

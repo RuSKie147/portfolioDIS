@@ -12,11 +12,11 @@
 <body class="theme-light font-sans transition-colors duration-300"> <!-- Restore theme-light class, remove Tailwind color/bg classes -->
 
     <!-- Top Navigation Bar -->
-    <nav id="top-nav" class="fixed top-8 right-32 flex z-50">
-        <a href="#about" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading mr-6">About</a>
-        <a href="#projects" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading mr-6">Project</a>
-        <a href="#testimonials" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading mr-6">Reviews</a>
-        <a href="#contact" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading">Contact</a>
+    <nav id="top-nav" class="fixed z-50" style="right: 7rem; top: 1.8rem;">
+        <a href="#about" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading no-underline" style="margin-right: 2rem; text-decoration: none;">About</a>
+        <a href="#projects" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading no-underline" style="margin-right: 2rem; text-decoration: none;">Project</a>
+        <a href="#testimonials" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading no-underline" style="margin-right: 2rem; text-decoration: none;">Reviews</a>
+        <a href="#contact" class="hover:text-pink-500 dark:hover:text-cyan-300 transition-colors text-lg font-heading no-underline" style="text-decoration: none;">Contact</a>
     </nav>
 
     <!-- Theme Toggle Button (just the SVG icon) -->
@@ -86,7 +86,7 @@
     <section id="projects" class="py-24"> <!-- Increased padding -->
         <!-- Apply neon glow based on theme -->
         <h2 class="font-heading text-5xl font-semibold text-center theme-light:neon-glow-blue dark:neon-glow-magenta" style="margin-bottom: 12rem;">PROJECTS_</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-16 max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 max-w-6xl mx-auto px-6 items-start justify-center">
             <a href="#" class="project-card-link block no-underline">
                 <div class="project-card-tilt">
                     <div class="project-card border rounded-xl text-center px-6 py-8 backdrop-blur-sm transition duration-300 ease-out min-h-[400px] flex flex-col justify-between">
@@ -95,7 +95,7 @@
                     </div>
                 </div>
             </a>
-            <a href="#" class="project-card-link block no-underline">
+            <a href="templates/project1.html" class="project-card-link block no-underline" data-project-type="development">
                 <div class="project-card-tilt">
                     <div class="project-card border rounded-xl text-center px-6 py-8 backdrop-blur-sm transition duration-300 ease-out min-h-[400px] flex flex-col justify-between">
                         <h3 class="font-heading text-3xl font-medium mb-5">Development</h3>
